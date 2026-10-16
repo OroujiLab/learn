@@ -1,0 +1,86 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "tracks/*.qmd"
+    - "lessons/*.qmd"
+  resources:
+    - assets/*.svg
+    - interactives/*.html
+    - exercises/**
+website:
+  title: "OroujiLab Learning"
+  site-url: https://oroujilab.github.io/learn/
+  description: "Free, research-led learning in genomics, epigenomics, and translational oncology."
+  favicon: assets/epigenome-mark-coffee.svg
+  search: true
+  navbar:
+    title: "OroujiLab / Learning"
+    logo: assets/epigenome-mark-coffee.svg
+    background: light
+    left:
+      - text: Tracks
+        href: tracks/index.qmd
+      - text: Lessons
+        href: lessons/index.qmd
+      - text: 3D genome glossary
+        href: lessons/hic-glossary.qmd
+      - text: Teaching approach
+        href: teaching.qmd
+    right:
+      - text: Reuse
+        href: reuse.qmd
+      - text: Privacy
+        href: privacy.qmd
+      - text: Source
+        href: https://github.com/OroujiLab/learn
+  page-navigation: true
+  bread-crumbs: true
+  sidebar:
+    style: docked
+    collapse-level: 1
+    contents:
+      - text: "Explore all lessons"
+        href: lessons/index.qmd
+      - text: "Learning tracks overview"
+        href: tracks/index.qmd
+      - section: "01 · Computational genomics"
+        contents:
+          - tracks/computational.qmd
+          - lessons/local-to-hpc.qmd
+          - lessons/hic-structures.qmd
+          - lessons/hic-resolution-lab.qmd
+          - lessons/comparing-hic-samples.qmd
+          - lessons/gosling-genome-tracks.qmd
+          - lessons/hic-glossary.qmd
+      - section: "02 · Experimental epigenomics"
+        contents:
+          - tracks/experimental.qmd
+          - lessons/atac-quality.qmd
+          - lessons/chromatin-assays.qmd
+          - lessons/cutrun-benchmarking.qmd
+          - lessons/hic-assays.qmd
+      - section: "03 · Cancer biology & organoids"
+        contents:
+          - tracks/cancer.qmd
+          - lessons/organoid-epigenomics-design.qmd
+          - lessons/enhancer-to-organoid.qmd
+      - section: "04 · Translational oncology"
+        contents:
+          - tracks/translational.qmd
+          - lessons/biomarker-evidence.qmd
+  page-footer:
+    left: "OroujiLab Learning · Free and open educational resources"
+    right: "Examples marked synthetic · Privacy and reuse information in main navigation"
+format:
+  html:
+    theme: cosmo
+    css: assets/styles.css
+    toc: true
+    toc-depth: 3
+    smooth-scroll: true
+    code-copy: true
+    page-layout: article
+execute:
+  freeze: auto
