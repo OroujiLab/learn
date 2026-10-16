@@ -1,32 +1,27 @@
 ---
 title: "Reuse and attribution"
-subtitle: "Publication-stage licensing plan and source acknowledgements"
+subtitle: "Citation, original teaching illustrations and third-party rights"
 ---
 
-## Free to learn, licenses pending
+## Access to the learning materials
 
-OroujiLab Learning is being prepared as a **free and open educational resource**. The repository is currently private, and **the following licensing choices have not been approved or issued yet**. Until formal license files and notices are adopted by the rights holder, do not assume that all material can be redistributed under an open license.
+OroujiLab Learning is free to read and use for personal learning. The source files are publicly viewable at [OroujiLab/learn](https://github.com/OroujiLab/learn). Public access to source code does **not** by itself grant permission to reproduce or redistribute it under an open-source license.
 
-| Material | Proposed license or status | Notes |
-|---|---|---|
-| Original website software, scripts and reusable CSS | [MIT License](https://opensource.org/license/mit) | Attribution and preservation of copyright/license notice |
-| Original instructional text, original scientific vector illustrations and authored teaching handouts | [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) | Credit, link to license, indicate modifications |
-| Epigenome Lab molecular logo/emblem | **Separately reserved; not included in the proposed CC BY grant** | Reuse governed by its rights holder |
-| Referenced papers, screenshots, externally hosted data and software dependencies | Rights retained by original providers | Follow cited sources and dependency licenses |
-| Synthetic exercise data | Awaiting explicit licensing statement | Clearly marked as illustrative, not clinical or experimental data |
+The rights holder has **not yet issued a general software or educational-content reuse license** for this edition. Until explicit licenses are supplied, please request permission before republishing or modifying substantial portions of the original materials.
 
-### Why separate licenses?
+| Materials | Current status |
+|---|---|
+| Original lesson text, authored handouts, figures and synthetic exercises | Free to view; no blanket redistribution license has yet been issued |
+| Website code, interactive JavaScript and reusable CSS | Publicly viewable; software reuse license not yet issued |
+| Epigenome Lab emblem | Separately reserved; no implied license to use the lab identity |
+| Published papers, third-party software, fonts and external datasets | Governed by their own licenses and copyright notices |
 
-A permissive software license suits scripts and reusable infrastructure. CC BY 4.0 is better aligned with attribution for original educational prose and figures. Neither grant should automatically transfer ownership or reuse rights in the lab emblem or third-party content.
+## How to cite a lesson
 
-### Citing the teaching resources
+Cite the lesson title, *OroujiLab Learning*, the specific page URL and access date. Where a research method, result or figure concept originates in the scientific literature, cite its **original primary publication** as well.
 
-For an educational use, identify the specific page title, **OroujiLab Learning**, its URL and the date you accessed it; include the relevant original scientific publications cited on that lesson's reference list. Original synthetic teaching diagrams are **not** figures reproduced from the scientific papers.
+All diagrams created for these lessons are original educational illustrations. Synthetic examples are not measurements from patients or published benchmark results.
 
-A precise versioned citation, persistent website address and public contact will be established when publishing is approved.
+## Corrections and reuse requests
 
-## Corrections and provenance
-
-Figures were authored specifically for this educational project; conceptually derived information should be verified with the cited primary works. No copyrighted Nature/Science/Cell publisher figure is reproduced without a separate permission or applicable license. Manuscript-specific unpublished HiC-ECC results are excluded until a public release is approved.
-
-For the detailed asset inventory and editorial review status, consult the project's SOURCE_ATTRIBUTION.md and LAUNCH_READINESS.md in the GitHub repository.
+For a scientific correction, reproducibility issue or reuse-permission question, use the [public repository's Issues page](https://github.com/OroujiLab/learn/issues) and identify the relevant lesson or asset.

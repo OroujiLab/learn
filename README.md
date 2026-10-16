@@ -2,9 +2,9 @@
 
 **Free, research-led educational resources in genomics, epigenomics and translational oncology.**
 
-Website (deployment pending): https://oroujilab.github.io/learn/
+**Website:** https://oroujilab.github.io/learn/
 
-This public repository contains the **reviewed teaching website source**, selected original scientific diagrams, synthetic educational datasets, and computational exercises. It is separate from the private OroujiLab development workspace.
+This repository contains the website source, original scientific diagrams, synthetic educational datasets and computational exercises.
 
 ## Learning pathways
 
@@ -19,6 +19,6 @@ The website is built with [Quarto](https://quarto.org) and deployed with GitHub 
 
 ## Copyright and reuse
 
-Original teaching content is free to read. **Software/content reuse licenses are awaiting the copyright holder's final approval**, and the Epigenome Lab emblem is separately reserved. See [Reuse and attribution](reuse.qmd) and [Privacy and data](privacy.qmd). All example biological data are synthetic unless explicitly sourced. Third-party resources retain their original licenses.
+Original teaching content is free to read. **No blanket code or educational-content redistribution license has yet been issued**, and the Epigenome Lab emblem is separately reserved. See [Reuse and attribution](reuse.qmd) and [Privacy and data](privacy.qmd). All example biological data are synthetic unless explicitly sourced. Third-party resources retain their original licenses.
 
 For corrections, please open an issue in this repository.

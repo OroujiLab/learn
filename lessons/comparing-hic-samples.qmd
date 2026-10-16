@@ -15,7 +15,7 @@ The key distinction is between **visual change**, **reproducible contact-frequen
 
 ![Original five-stage workflow showing study design, comparable input matrices, quantitative comparison, replicate support, and functional interpretation.](../assets/hic-comparison-workflow.svg){fig-alt="Five readable cards: study design, comparable matrices, quantitative comparison, replicate support and functional relevance."}
 
-*Figure 1. Original vector workflow for responsible multi-sample Hi-C comparison; this is methodological guidance, not a HiC-ECC result.*
+*Figure 1. Original vector workflow for responsible multi-sample Hi-C comparison; this is methodological guidance, not an analysis result from an experimental dataset.*
 
 ## 1. Define the comparison before opening the heatmaps
 
@@ -50,7 +50,7 @@ Imagine a simulated 400-kb region binned at 20 kb with three conditions: baselin
 
 **Exercise:** Compute each O/E ratio and explain why a rise from 1.20 to 1.50 does *not* establish a statistically significant loop gain. How might changes in distance decay, copy number, biological variation or normalization alter the interpretation? What biological replicates and controls would be required?
 
-*These numbers are entirely invented and deliberately small; they are not HiC-ECC outputs, sequencing recommendations or patient observations.*
+*These numbers are entirely invented and deliberately small; they are not real software outputs, sequencing recommendations or patient observations.*
 
 ## Interactive laboratory: three samples, two synthetic replicates each
 
@@ -74,11 +74,9 @@ Explore three **invented sample conditions** (A, perturbed B, recovery C) and tw
 
 The distinction is crucial: an algorithm can detect a pattern that is **specific to the compared samples** without establishing that it is a causal or clinically meaningful feature.
 
-## 5. Connection to HiC-ECC: an emerging framework
+## 5. Related computational frameworks
 
-The OroujiLab **HiC-ECC** research programme addresses sample-specific chromatin interaction patterns in 3D-genome data. The associated methods manuscript is under journal review, so this lesson intentionally **does not describe unpublished performance claims, benchmarks, implementation details or study-specific results**. Once a citable public version is available, the lesson can be extended with a reproducible tutorial and exact software version.
-
-In the meantime, this exercise teaches general principles of differential Hi-C analysis that stand independently of any particular unpublished method.
+The OroujiLab [HiC-ECC project](https://github.com/OroujiLab/HiC-ECC) addresses analysis of chromatin interaction patterns across Hi-C datasets. The synthetic examples in this lesson are **independent teaching exercises**, not outputs, comparative benchmarks or performance evaluations of HiC-ECC. Applying any analysis workflow to experimental samples additionally requires appropriate quality control, biological replication, normalization and versioned documentation.
 
 ## 6. Seminar challenge
 

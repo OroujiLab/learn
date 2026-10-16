@@ -1,6 +1,6 @@
 # Instructor notes — Hi-C contact-map laboratory
 
-**Status:** Draft material for future teaching; not evidence of previously delivered teaching. **Data:** Entirely simulated 240-kb region, no biological data.
+**Use:** Instructor guide for a self-paced or instructor-led teaching exercise. **Data:** Entirely simulated 240-kb region; no experimental or patient data.
 
 ## Core explanations students should provide
 

@@ -18,13 +18,13 @@ The Genome Track Studio can open small BED, bedGraph and tabular contact-matrix 
 - The website loads typography from **Google Fonts** and its front-end components from the hosting site's static assets. Those requests may reveal standard technical data such as an IP address to the serving provider.
 - When you explicitly choose **Load live public Gosling chart**, the browser requests the Gosling library from an external CDN and a public annotation file from an external host. These third parties operate under their own terms and privacy policies. The synthetic offline examples work without that optional connection.
 - Clicking links to external publishers, GitHub, DOI services or official genomics tutorials takes you to third-party websites.
-- If the future site is hosted by GitHub Pages, GitHub operates the infrastructure; consult [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Server and platform-level network logs are not controlled by the static site's authors.
+- The site is hosted on GitHub Pages; GitHub operates the infrastructure. Consult [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Server and platform-level network logs are not controlled by the static site's authors.
 
 No deliberate advertising trackers, user accounts, form collection or proprietary analytics are included in the current authored site. This statement does not claim the absence of hosting-provider logs or third-party data collection.
 
 ## Accessibility
 
-The site uses navigation links, structural headings, labelled interactives and descriptions of key scientific figures. The more detailed vector schematics can be viewed at full size. We aim to support keyboard navigation and reduced-motion preferences, but accessible behavior still needs to be verified in real browsers and assistive technologies prior to public release.
+The site uses navigation links, structural headings, labelled interactives and descriptions of key scientific figures. The more detailed vector schematics can be viewed at full size. We aim to support keyboard navigation and reduced-motion preferences, but accessibility feedback is welcome, particularly for keyboard navigation, screen readers and responsive interactive figures.
 
 ## Medical and research use
 
@@ -32,8 +32,8 @@ All interactive values and example patient cohorts are explicitly fictional. The
 
 ## Licensing and attribution
 
-Code, original written lessons, original figures and the Epigenome Lab logo have different proposed reuse terms. No open-source license is granted solely by a proposed license in the repository. The final licenses will be documented in the [reuse and attribution page](reuse.qmd) following owner approval.
+Code, original written lessons, original figures and the Epigenome Lab logo have different proposed reuse terms. No open-source license is granted solely by a proposed license in the repository. Current rights and permission-request guidance are explained on the [reuse and attribution page](reuse.qmd).
 
 ## Questions and corrections
 
-Before a public launch, the site owner will add or approve a public contact channel. Scientific corrections should identify the lesson, passage and supporting primary reference.
+To suggest a correction or accessibility improvement, [open an issue in the public repository](https://github.com/OroujiLab/learn/issues) and identify the lesson, relevant passage and supporting source.
