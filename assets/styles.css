@@ -234,16 +234,14 @@ main.content img[src*="gosling-workflow.svg"]{
   .directory-lesson-main{gap:.8rem}
   main.content figure:has(img[src*="peak-caller.svg"]),
   main.content figure:has(img[src*="cutrun-cuttag-chip.svg"]),
-  main.content figure:has(img[src*="gosling-workflow.svg"]),
-  main.content figure:has(img[src*="chromatin-hero.svg"]){
+  main.content figure:has(img[src*="gosling-workflow.svg"]){
     max-width:100%;
     overflow-x:auto;
     -webkit-overflow-scrolling:touch;
   }
   main.content img[src*="peak-caller.svg"],
   main.content img[src*="cutrun-cuttag-chip.svg"],
-  main.content img[src*="gosling-workflow.svg"],
-  main.content img[src*="chromatin-hero.svg"]{
+  main.content img[src*="gosling-workflow.svg"]{
     width:850px!important;
     max-width:none!important;
   }
@@ -255,4 +253,39 @@ main.content img[src*="gosling-workflow.svg"]{
  .lesson-directory-intro{margin-bottom:1.2rem;padding-bottom:1rem}
  .lesson-jump{margin:1rem 0 2rem;font-size:.92rem}
  .directory-list{margin-top:1.1rem}
+}
+
+/* Responsive homepage: Quarto's full-page grid must never inherit
+   the wider, scrollable sizes used by detailed lesson SVGs. */
+body:has(.learning-home-content) .hero-section {
+  grid-template-columns: minmax(0, 1.03fr) minmax(0, .97fr);
+  min-width:0;
+  max-width:100%;
+}
+body:has(.learning-home-content) .hero-section > * {
+  min-width:0;
+  max-width:100%;
+}
+body:has(.learning-home-content) .hero-figure,
+body:has(.learning-home-content) .hero-figure figure,
+body:has(.learning-home-content) .hero-figure .quarto-figure {
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+}
+body:has(.learning-home-content) .hero-figure img[src*="chromatin-hero.svg"] {
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:auto;
+}
+@media(max-width:860px){
+  body:has(.learning-home-content) .hero-section {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+/* At desktop zoom levels Quarto's max-width grid should sit symmetrically. */
+body:has(.learning-home-content) .quarto-container {
+  margin-inline:auto;
 }
