@@ -1,0 +1,26 @@
+---
+title: "Teaching approach"
+subtitle: "Mechanism, measurement, analysis, inference"
+---
+
+## Why this resource exists
+
+An accessible chromatin region, a peak, a contact, an organoid phenotype, or a significant p value is rarely the end of a scientific argument. Each is a measurement with assumptions, dependencies and limitations. This platform teaches those assumptions alongside the methods.
+
+## The lesson structure
+
+Each complete module combines: **(1)** focused learning objectives, **(2)** mechanism or assay explanation, **(3)** an original schematic, **(4)** a reproducible practical or literature-based case, **(5)** an interpretation challenge, **(6)** primary literature and teaching notes.
+
+## Reuse and transparency
+
+Content is intended to be freely accessible when publicly released. Proposed licenses are MIT for code and CC BY 4.0 for newly authored material, subject to owner approval. Publisher figures remain under their original licenses; the Epigenome molecular emblem is excluded from automatic relicensing.
+
+The exercises use explicitly synthetic data. Any clinical case is fictitious and not a substitute for professional interpretation or medical decision-making. Newly authored curriculum materials should not be represented as previously delivered classes without supporting teaching records.
+
+## Suggested formats
+
+- Individual study: follow the explanation, run the practical, then inspect the reference.
+- Journal club: critique the evidence and compare assumptions with alternative experimental designs.
+- Graduate seminar: use the questions and instructor notes as a starting point for discussion.
+
+[Browse all lessons](lessons/index.qmd)

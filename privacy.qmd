@@ -1,0 +1,39 @@
+---
+title: "Privacy, data and accessibility"
+subtitle: "How this educational site handles browser-based genomics examples"
+---
+
+## What the website does
+
+OroujiLab Learning is a **static educational website**, with free tutorials, scientific figures, interactive conceptual exercises and references to the primary literature. It is not a clinical decision tool or a secure portal for patient or research records.
+
+### Your local files
+
+The Genome Track Studio can open small BED, bedGraph and tabular contact-matrix files inside your browser. The supplied JavaScript reads selected files locally; **the site has no upload endpoint, registration form, database or server-side patient-data processing**. File contents are not intentionally sent to OroujiLab or saved as an account.
+
+**Do not use identifiable, restricted or unpublished patient/research data on a public teaching demonstration.** Large BigWig, BigBed and Hi-C/Cooler files require compatible dedicated tools and are not decoded by this simple browser example.
+
+### External services
+
+- The website loads typography from **Google Fonts** and its front-end components from the hosting site's static assets. Those requests may reveal standard technical data such as an IP address to the serving provider.
+- When you explicitly choose **Load live public Gosling chart**, the browser requests the Gosling library from an external CDN and a public annotation file from an external host. These third parties operate under their own terms and privacy policies. The synthetic offline examples work without that optional connection.
+- Clicking links to external publishers, GitHub, DOI services or official genomics tutorials takes you to third-party websites.
+- If the future site is hosted by GitHub Pages, GitHub operates the infrastructure; consult [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Server and platform-level network logs are not controlled by the static site's authors.
+
+No deliberate advertising trackers, user accounts, form collection or proprietary analytics are included in the current authored site. This statement does not claim the absence of hosting-provider logs or third-party data collection.
+
+## Accessibility
+
+The site uses navigation links, structural headings, labelled interactives and descriptions of key scientific figures. The more detailed vector schematics can be viewed at full size. We aim to support keyboard navigation and reduced-motion preferences, but accessible behavior still needs to be verified in real browsers and assistive technologies prior to public release.
+
+## Medical and research use
+
+All interactive values and example patient cohorts are explicitly fictional. The materials are for education, not treatment recommendations or validated clinical tests. Scientific conclusions require suitable data, controls, replication and independent validation.
+
+## Licensing and attribution
+
+Code, original written lessons, original figures and the Epigenome Lab logo have different proposed reuse terms. No open-source license is granted solely by a proposed license in the repository. The final licenses will be documented in the [reuse and attribution page](reuse.qmd) following owner approval.
+
+## Questions and corrections
+
+Before a public launch, the site owner will add or approve a public contact channel. Scientific corrections should identify the lesson, passage and supporting primary reference.
