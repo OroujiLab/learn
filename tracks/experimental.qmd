@@ -1,0 +1,32 @@
+---
+title: "Experimental genomics & epigenomics"
+subtitle: "What each assay measures—and which biological claims it supports"
+---
+
+## Design experiments around the inference
+
+Assays become more powerful when students understand the relationship between their physical measurement and the biological quantity of interest. An ATAC-seq peak, for example, measures transposase-accessible DNA, not a direct enhancer–gene interaction or a guarantee of transcriptional activity.
+
+### Chromatin measurements
+
+- **Accessibility:** ATAC-seq and single-cell ATAC-seq; fragment length structure, TSS enrichment, sample quality and background.
+- **Protein–DNA association:** ChIP-seq, CUT&RUN and CUT&Tag; antibody specificity, controls, fragment recovery and peak caller assumptions.
+- **DNA modification:** bisulfite-based approaches, oxidative/hydroxymethylation strategies and direct long-read signal interpretation.
+- **3D architecture:** Hi-C, targeted contact assays, insulation, compartments, loops and the impact of sequencing resolution.
+
+### Experimental design studio
+
+Learners select an assay for a biological hypothesis, articulate what they cannot measure directly, design appropriate positive/negative controls and state what orthogonal evidence would make the result persuasive.
+
+[**Practical: how should we evaluate CUT&RUN peaks? →**](../lessons/cutrun-benchmarking.qmd)
+
+**3D genome teaching resources:** [assay-family map](../lessons/hic-assays.qmd), [structural signatures](../lessons/hic-structures.qmd), and [contact-map terminology](../lessons/hic-glossary.qmd).
+
+### New illustrated lessons
+
+- [ATAC-seq: accessibility and quality control](../lessons/atac-quality.qmd)
+- [Choosing ChIP-seq, CUT&RUN, or CUT&Tag](../lessons/chromatin-assays.qmd)
+- [Designing cancer organoid epigenomics studies](../lessons/organoid-epigenomics-design.qmd)
+- [Gosling and HiGlass track studio](../lessons/gosling-genome-tracks.qmd)
+
+**Foundational papers:** [CUT&RUN protocol](https://doi.org/10.1038/nprot.2018.015); [ATAC-seq](https://doi.org/10.1038/nmeth.4396); [SEACR](https://doi.org/10.1186/s13072-019-0287-4).

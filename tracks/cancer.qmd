@@ -1,0 +1,24 @@
+---
+title: "Cancer biology & models"
+subtitle: "A phenotype is an observation; a mechanism is an experimentally tested explanation"
+---
+
+## Tumours contain programs, not merely mutations
+
+Cancer-associated regulatory changes may appear as altered enhancer activity, shifting cell states, chromatin remodeling and state-specific gene expression. Disentangling these processes requires matching experimental observations to mechanistic claims.
+
+### Core study themes
+
+**Colorectal cancer:** malignant epithelial heterogeneity; organoid and xenograft models; transcriptional and chromatin regulatory programs; stem-like, differentiation-associated and context-dependent states.
+
+**Melanoma:** lineage identity, adaptive cell states, chromatin remodeling and treatment response.
+
+**Prostate cancer:** androgen-receptor-associated transcription, enhancer reprogramming and disease progression.
+
+### Case-study approach
+
+Each case starts with a real research question. What do chromatin accessibility, RNA abundance and physical contacts jointly suggest? What important alternative explanations remain? What experiment would discriminate them?
+
+[**Investigate an enhancer in a CRC organoid →**](../lessons/enhancer-to-organoid.qmd)
+
+**Further reading:** [patient-derived colorectal organoid biobank](https://doi.org/10.1016/j.cell.2015.03.053); [enhancer–promoter activity-by-contact study](https://doi.org/10.1038/s41588-019-0538-0).

@@ -1,0 +1,24 @@
+---
+title: "Translational oncology"
+subtitle: "From molecular discovery to clinically defensible evidence"
+---
+
+## Does an interesting result change a decision?
+
+Molecular correlation, mechanistic relevance and demonstrated clinical utility are **different evidentiary claims**. Their distinction is especially important for organoid drug screens, biomarker studies and multiomic predictors.
+
+### Curriculum directions
+
+- Molecular pathology concepts: somatic alterations, MMR/MSI, assay performance and tumour heterogeneity.
+- Biomarkers: analytical validity, clinical validity, utility, prospective evaluation and external transportability.
+- Organoid drug response: assay comparability, tumour sampling, stromal and immune context, exposure, endpoints and validation.
+- Cohort studies: confounding, missingness, data leakage, survival endpoints, subgroup analyses and decision thresholds.
+- Responsible interpretation: why a retrospectively associated marker may not help choose treatment.
+
+### Seminar
+
+Review an explicitly fictional cohort, identify the causal and clinical assumptions hidden in a promising association and construct a credible validation plan.
+
+[**Case discussion: can an organoid result guide care? →**](../lessons/biomarker-evidence.qmd)
+
+The seminar is designed for **research training**, not clinical decision support.

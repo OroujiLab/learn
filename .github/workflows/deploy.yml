@@ -1,0 +1,51 @@
+name: Build and deploy OroujiLab Learning
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: oroujilab-learning-pages
+  cancel-in-progress: true
+jobs:
+  publish:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out approved teaching source
+        uses: actions/checkout@v5
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check synthetic teaching examples
+        run: python -m unittest discover -s tests -v
+      - name: Install Node for browser script checks
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Run JavaScript tests
+        run: |
+          node tests/test_hic_interactive.cjs
+          node tests/test_hic_studio.cjs
+          node tests/test_genome_track_studio.cjs
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+      - name: Render website
+        run: quarto render
+      - name: Audit generated website
+        run: python tests/audit_built_site.py docs
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static Quarto website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./docs
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

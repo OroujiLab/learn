@@ -1,0 +1,15 @@
+---
+title: "Learning tracks"
+subtitle: "A connected curriculum from molecular measurements to biological interpretation"
+---
+
+Four tracks share a common principle: **what is measured is not automatically what is inferred**. Start with a technique you use, or follow a larger research question across experimental design, computational inference, and translation.
+
+| Track | What you will learn | Begin |
+|---|---|---|
+| Computational genomics | FASTQ/BAM/BED, QC, scripting, HPC, reproducibility and multi-omics | [Laptop to HPC](../lessons/local-to-hpc.qmd) |
+| Experimental epigenomics | Chromatin accessibility, CUT&RUN, histone profiling, methylation and 3D genome | [Peak-caller interpretation](../lessons/cutrun-benchmarking.qmd) |
+| Cancer biology and models | Enhancers, tumour cell states, patient-derived organoids and drug response | [Enhancer evidence](../lessons/enhancer-to-organoid.qmd) |
+| Translational oncology | Clinical cohorts, biomarkers, experimental model validity and treatment evidence | [Biomarker seminar](../lessons/biomarker-evidence.qmd) |
+
+The practical datasets are **invented for education**, never real patient samples or unpublished manuscript results. Additional lessons will be released only after scientific and citation review.

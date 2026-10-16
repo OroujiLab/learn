@@ -1,0 +1,36 @@
+---
+title: "Computational genomics"
+subtitle: "One question, reproducible answers—from a laptop to an HPC cluster"
+---
+
+## Sequence data do not interpret themselves
+
+A FASTQ record describes a sequence and a base-quality encoding. A genomic coordinate is meaningful only with a reference assembly. A computational pipeline is reproducible only when its inputs, references, versions, parameters and execution environment can be reconstructed.
+
+### Foundations
+
+Terminal navigation, Bash, Python and R; compressed files and checksums; FASTQ, BAM/CRAM, BED, bigWig and VCF formats; genomic coordinates and reference builds; Git and sample metadata.
+
+### Beyond the laptop
+
+High-performance computing with job schedulers, computational resource estimates, software environments, command-line logging, batch processing and workflow managers. A useful first exercise asks students to execute **the same logic** locally and on a cluster and compare provenance.
+
+### From sequencing to biological inference
+
+Read alignment and filtering; assay-specific QC; bulk and single-cell chromatin accessibility; differential analysis; genomic intervals, peak calling, single-cell integration and 3D genome interpretation. Multiple approaches may produce different but superficially plausible biological narratives.
+
+[**First practical: laptop to HPC →**](../lessons/local-to-hpc.qmd)
+
+[**Advanced practical: interactive Hi-C resolution laboratory →**](../lessons/hic-resolution-lab.qmd) — change contact-map bin width and sampling depth, compare raw and O/E visualization, and learn why a bright pixel is not a validated chromatin loop.
+
+[**3D genome structures: compartments, TADs, loops and stripes →**](../lessons/hic-structures.qmd)
+
+[**Comparing two or more Hi-C samples →**](../lessons/comparing-hic-samples.qmd) — sample QC, joint interpretation, differential interactions and replication.
+
+[**3D genome assay-family guide →**](../lessons/hic-assays.qmd) — compare targeted 3C approaches, genome-wide Hi-C and Micro-C, enrichment-coupled methods and ligation-free alternatives.
+
+[**3D-genome glossary →**](../lessons/hic-glossary.qmd) — key differences between measurement, normalization, structural inference and biological claims.
+
+[**Genome Track Studio with Gosling and HiGlass →**](../lessons/gosling-genome-tracks.qmd) — explore small local BED and bedGraph files, synthetic matrix TSVs and an optional live Gosling example.
+
+**Further reading:** [FASTA/FASTQ provenance and format](https://doi.org/10.1093/nar/gkp1137); [official SLURM sbatch reference](https://slurm.schedmd.com/sbatch.html).
