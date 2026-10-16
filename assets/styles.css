@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap');
+:root{--espresso:#2F1D14;--ink:#35261E;--coffee:#4A3024;--walnut:#73533F;--caramel:#A97A51;--sand:#D8C2AE;--ivory:#F8F5EF;--paper:#FFFEFB;--line:#E7DED2;--sub:#75675D;--soft:#F2EAE0}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3',system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:1.12rem;line-height:1.82;font-weight:400}
+h1,h2,h3,h4,.navbar-title,.nav-link,.hero-kicker{font-family:'DM Sans',system-ui,sans-serif;letter-spacing:-.028em;color:var(--coffee)}
+h1{font-weight:400;letter-spacing:-.045em}h2{font-size:1.8rem;font-weight:400;margin-top:3.2rem}h3{font-size:1.27rem;font-weight:500}
+p{max-width:76ch}p,li{line-height:1.8}strong{font-weight:600}
+a{color:#73442D;text-underline-offset:3px}a:hover{color:var(--espresso)}
+.navbar{border-bottom:1px solid var(--line);background:rgba(255,254,251,.97)!important;box-shadow:none;min-height:80px}
+.navbar-brand{font-weight:500!important;color:var(--coffee)!important;font-family:'DM Sans',sans-serif;letter-spacing:-.03em}.nav-link{font-weight:400;color:var(--coffee)!important}.navbar-logo{max-height:39px}
+#quarto-content{padding-bottom:5.5rem}.quarto-container{max-width:1330px}
+main.content{padding-top:2.7rem!important}.quarto-title .title{font-size:clamp(2.5rem,5.2vw,4.35rem);font-weight:400;line-height:1.16;margin:.1em 0 .55em}
+.hero-section{padding:5.7rem 0 5.2rem;display:grid;grid-template-columns:1.03fr .97fr;gap:clamp(2.2rem,5.3vw,6rem);align-items:center}
+.hero-kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.2em;font-weight:500;color:var(--walnut);margin-bottom:1.65rem}
+.hero-section h1{font-size:clamp(2.9rem,5vw,5rem);line-height:1.16;letter-spacing:-.052em;margin:0 0 1.8rem;color:var(--coffee);font-weight:400}
+.hero-lead{max-width:39rem;color:var(--sub);font-size:1.24rem;line-height:1.78;font-weight:300}
+.cta-link{display:inline-flex;align-items:center;gap:.8rem;background:var(--coffee);color:#FFFDF9!important;padding:.96rem 1.6rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.89rem;font-weight:500;text-decoration:none;margin-top:2rem}
+.cta-link:hover{background:var(--espresso);text-decoration:none}
+.eyebrow{font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:var(--walnut)}
+.section-intro{color:var(--sub);max-width:740px;font-size:1.2rem;line-height:1.8;font-weight:300}
+.track-grid,.lesson-collection{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem;margin:2.35rem 0 5.1rem}
+.track-card,.module-card{border:1px solid var(--line);padding:2.35rem;border-radius:5px;background:var(--paper);text-decoration:none!important;min-height:225px;display:block;transition:transform .2s,box-shadow .2s,border-color .2s}
+.track-card:hover,.module-card:hover{transform:translateY(-2px);box-shadow:0 18px 42px #4A302410;border-color:var(--sand)}
+.track-number,.module-card .label{color:var(--walnut);font:500 .77rem 'DM Sans',sans-serif;letter-spacing:.13em;text-transform:uppercase}
+.track-card h3,.module-card h3{font-size:1.37rem;margin:1.15rem 0 .9rem;color:var(--coffee);font-weight:400}
+.track-card p,.module-card p{font-size:1.05rem;color:var(--sub);line-height:1.7;margin:0;max-width:52ch;font-weight:300}
+.module-card{background:var(--ivory);min-height:270px;display:flex;flex-direction:column}
+.module-next{font:500 .86rem 'DM Sans',sans-serif;margin-top:auto;padding-top:1.5rem;color:var(--coffee)}
+.lesson-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0 2rem}
+.pill{display:inline-block;padding:.42rem .78rem;background:var(--soft);border-radius:3px;margin-right:.35rem;color:var(--walnut);font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:500}
+.callout-note{border-left-color:var(--walnut)!important}
+.page-footer{border-top:1px solid var(--line);font-size:.88rem;color:var(--sub);padding-top:2rem}
+.evidence-iframe{display:block;width:100%;min-height:480px;border:1px solid var(--line);border-radius:6px;background:var(--ivory);margin:2rem 0}
+main.content>p,main.content>ol,main.content>ul,main.content>table{max-width:78ch}
+figure{margin:2.5rem 0}figure img{max-width:100%}
+@media(max-width:860px){.hero-section{grid-template-columns:1fr;gap:2.7rem;padding:2.8rem 0 3.6rem}.track-grid,.lesson-collection{grid-template-columns:1fr;gap:1rem}.track-card,.module-card{min-height:190px;padding:1.7rem}main.content{padding-top:1.3rem!important}.evidence-iframe{min-height:560px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.track-card,.module-card{transition:none}.track-card:hover,.module-card:hover{transform:none}}
+
+/* Taller interactive Hi-C lab with no cramped nested scrolling at desktop widths. */
+.hic-iframe{min-height:830px;}
+@media(max-width:860px){.hic-iframe{min-height:1210px}}
+@media(max-width:500px){.hic-iframe{min-height:1290px}}
+
+/* Suppress Quarto's duplicate page title only on the editorial homepage. */
+body:has(.hero-section) #title-block-header{display:none!important}
+
+/* Homepage: Quarto full-width columns should not anchor the content off-centre. */
+body:has(.learning-home-content) main.content.column-page{
+  width:min(100% - 3rem, 1200px)!important;
+  max-width:1200px!important;
+  margin-inline:auto!important;
+  grid-column:1 / -1!important;
+}
+body:has(.learning-home-content) .hero-section,
+body:has(.learning-home-content) .learning-home-content{
+  width:100%;max-width:1200px;margin-inline:auto;
+}
+body:has(.learning-home-content) .learning-home-content.container{padding-inline:0!important;}
+/* Preserve an intentional logo hit area instead of shrinking it to a few pixels. */
+#quarto-header .navbar-container{padding-inline:clamp(20px,3vw,54px)!important;}
+#quarto-header .navbar-brand-container{margin-left:0!important;margin-right:1.6rem!important;flex-shrink:0;display:flex;align-items:center;gap:.5rem;}
+#quarto-header .navbar-brand-logo{display:inline-flex!important;align-items:center;justify-content:center;min-width:52px!important;width:52px!important;min-height:48px;flex:0 0 52px;margin-right:.25rem!important;}
+#quarto-header img.navbar-logo{display:block;max-width:48px!important;width:48px!important;height:40px!important;max-height:40px!important;object-fit:contain;}
+#quarto-header img.navbar-logo.dark-content{display:none!important;}
+#quarto-header .navbar-title{white-space:nowrap;}
+@media(max-width:780px){
+  body:has(.learning-home-content) main.content.column-page{width:calc(100% - 2rem)!important;}
+  #quarto-header .navbar-container{padding-inline:14px!important;}
+  #quarto-header .navbar-brand-container{margin-right:.5rem!important;}
+  #quarto-header .navbar-brand-logo{min-width:40px!important;width:40px!important;flex-basis:40px;}
+  #quarto-header img.navbar-logo{max-width:36px!important;width:36px!important;height:36px!important;}
+}
+
+/* Scope homepage geometry to its actual editorial grid, not Bootstrap containers. */
+body:has(.learning-home-content) .learning-home-content{
+  display:block;
+  box-sizing:border-box;
+  padding-inline:0!important;
+}
+body:has(.learning-home-content) .learning-home-content .track-grid,
+body:has(.learning-home-content) .learning-home-content .lesson-collection{
+  width:100%;grid-template-columns:repeat(2,minmax(0,1fr));
+}
+@media(max-width:860px){
+ body:has(.learning-home-content) .learning-home-content .track-grid,
+ body:has(.learning-home-content) .learning-home-content .lesson-collection{
+  grid-template-columns:minmax(0,1fr);
+ }
+}
+
+
+/* Scientific teaching studio — clean vector figures and readable embedded exercises. */
+main.content img[src*="hic-structures-master.svg"],
+main.content img[src*="hic-interpretation-workflow.svg"],
+main.content img[src*="hic-comparison-workflow.svg"],
+main.content img[src*="hic-assay-family.svg"]{
+  display:block;
+  width:100%;height:auto;
+  background:#FFFEFB;
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+main.content .learning-iframe{
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  display:block;
+  background:var(--ivory);
+  border:1px solid var(--line);
+  border-radius:9px;
+  margin:2.1rem 0 1.3rem;
+}
+main.content .learning-iframe--structures{min-height:1220px}
+main.content .learning-iframe--compare{min-height:1100px}
+@media (min-width:1250px){
+  main.content .learning-iframe--structures{min-height:1050px}
+  main.content .learning-iframe--compare{min-height:950px}
+}
+@media (max-width:620px){
+  main.content .learning-iframe--structures{min-height:1560px}
+  main.content .learning-iframe--compare{min-height:1940px}
+}
+@media(prefers-reduced-motion:reduce){main.content img{transition:none}}
+
+
+/* QA adjustments: prevent nested scrolling and keep long scientific tables within phone width. */
+main.content .learning-iframe--structures{min-height:2160px}
+main.content .learning-iframe--compare{min-height:1580px}
+@media(max-width:700px){
+  main.content table{
+    display:block;
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  main.content figure:has(img[src*="hic-structures-master.svg"]),
+  main.content figure:has(img[src*="hic-interpretation-workflow.svg"]),
+  main.content figure:has(img[src*="hic-comparison-workflow.svg"]),
+  main.content figure:has(img[src*="hic-assay-family.svg"]){
+    display:block;
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  main.content img[src*="hic-structures-master.svg"],
+  main.content img[src*="hic-interpretation-workflow.svg"],
+  main.content img[src*="hic-comparison-workflow.svg"],
+  main.content img[src*="hic-assay-family.svg"]{
+    width:780px!important;
+    max-width:none!important;
+  }
+  main.content .learning-iframe--structures{min-height:2070px}
+  main.content .learning-iframe--compare{min-height:2730px}
+}
+
+/* Genome Track Studio: isolated local text viewer and optional public Gosling example. */
+main.content .learning-iframe--genome-studio{min-height:1120px}
+@media(max-width:820px){main.content .learning-iframe--genome-studio{min-height:1540px}}
+@media(max-width:520px){main.content .learning-iframe--genome-studio{min-height:1800px}}
+
+/* Release QA: solid sticky navigation; prevent content showing through behind the header. */
+#quarto-header,.navbar,.navbar-container{background:#FFFEFB!important}
+#quarto-header{isolation:isolate;z-index:1100}
+#quarto-content{position:relative;z-index:1}
+main.content .learning-iframe--genome-studio{min-height:1260px}
+@media(max-width:820px){main.content .learning-iframe--genome-studio{min-height:1560px}}
+@media(max-width:520px){main.content .learning-iframe--genome-studio{min-height:1780px}}
+
+/* Version 9: an editorial curriculum directory with clear navigation and ample whitespace. */
+.lesson-directory-intro{
+  border-bottom:1px solid var(--line);
+  padding:0 0 1.5rem;
+  margin:0 0 2rem;
+  color:var(--sub);
+  max-width:78ch;
+}
+.lesson-directory-intro p{font-size:1.14rem;line-height:1.78}
+.lesson-jump{
+  background:var(--ivory);
+  padding:1.25rem 1.6rem;
+  border:1px solid var(--line);
+  border-radius:7px;
+  margin:1.5rem 0 3.5rem;
+  font-size:1rem;
+}
+.lesson-jump a{display:inline-block;padding:.2rem .3rem;margin:.15rem .1rem;text-decoration:none;border-bottom:1px solid var(--sand)}
+.lesson-jump a:focus-visible,.directory-lesson:focus-visible{outline:3px solid var(--caramel);outline-offset:3px}
+main.content h2[id$="-genomics"],
+main.content h2[id="cancer-biology-organoids"],
+main.content h2[id="translational-oncology"]{scroll-margin-top:120px}
+.directory-list{display:flex;flex-direction:column;gap:.8rem;margin:1.6rem 0 4rem}
+.directory-lesson{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.8fr) 30px;
+  gap:1.6rem;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:var(--paper);
+  padding:1.45rem 1.55rem;
+  text-decoration:none!important;
+  color:var(--coffee)!important;
+  transition:border-color .15s,background .15s;
+}
+.directory-lesson:hover{background:var(--ivory);border-color:var(--sand)}
+.directory-lesson-main{display:flex;gap:1.1rem;align-items:baseline;min-width:0}
+.directory-index{font:500 .74rem "DM Sans",sans-serif;color:var(--walnut)}
+.directory-lesson-title{font:400 clamp(1.08rem,1.8vw,1.28rem) "DM Sans",sans-serif;line-height:1.4}
+.directory-meta{display:flex;flex-wrap:wrap;gap:.4rem .65rem;align-items:center;font-size:.82rem;color:var(--walnut);line-height:1.5}
+.directory-meta span:not(:last-child){padding-right:.65rem;border-right:1px solid var(--sand)}
+.directory-arrow{font-size:1.3rem;justify-self:end;color:var(--walnut)}
+/* Figure legibility: images remain original vectors and can be viewed at full scale. */
+main.content img[src*="peak-caller.svg"],
+main.content img[src*="cutrun-cuttag-chip.svg"],
+main.content img[src*="chromatin-hero.svg"],
+main.content img[src*="enhancer-evidence.svg"],
+main.content img[src*="gosling-workflow.svg"]{
+  display:block;
+  width:100%;
+  height:auto;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:9px;
+}
+@media(max-width:900px){
+  .directory-lesson{grid-template-columns:minmax(0,1fr) 22px;gap:.5rem 1rem}
+  .directory-meta{grid-column:1/-1;padding-left:1.8rem}
+  .directory-arrow{grid-column:2;grid-row:1}
+}
+@media(max-width:600px){
+  .lesson-jump{padding:1rem}
+  .directory-lesson{padding:1.25rem}
+  .directory-lesson-main{gap:.8rem}
+  main.content figure:has(img[src*="peak-caller.svg"]),
+  main.content figure:has(img[src*="cutrun-cuttag-chip.svg"]),
+  main.content figure:has(img[src*="gosling-workflow.svg"]),
+  main.content figure:has(img[src*="chromatin-hero.svg"]){
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  main.content img[src*="peak-caller.svg"],
+  main.content img[src*="cutrun-cuttag-chip.svg"],
+  main.content img[src*="gosling-workflow.svg"],
+  main.content img[src*="chromatin-hero.svg"]{
+    width:850px!important;
+    max-width:none!important;
+  }
+}
+
+/* Mobile curriculum overview: expose topic shortcuts without a long introduction. */
+@media(max-width:600px){
+ .lesson-directory-intro p{font-size:1rem;line-height:1.58}
+ .lesson-directory-intro{margin-bottom:1.2rem;padding-bottom:1rem}
+ .lesson-jump{margin:1rem 0 2rem;font-size:.92rem}
+ .directory-list{margin-top:1.1rem}
+}

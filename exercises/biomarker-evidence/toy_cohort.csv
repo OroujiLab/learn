@@ -1,0 +1,9 @@
+synthetic_id,organoid_score_group,therapy_group,months_followup,progressed,notes
+SYN-01,high,A,8,1,invented
+SYN-02,high,A,12,0,invented
+SYN-03,low,A,5,1,invented
+SYN-04,low,A,7,1,invented
+SYN-05,high,B,7,1,invented
+SYN-06,low,B,10,0,invented
+SYN-07,high,B,9,0,invented
+SYN-08,low,B,8,1,invented
