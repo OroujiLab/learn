@@ -1,0 +1,59 @@
+---
+title: "Can an organoid drug response become a biomarker?"
+subtitle: "From mechanistic plausibility to clinical utility"
+---
+
+::: {.lesson-meta}
+<span class="pill">Translational oncology</span><span class="pill">Seminar · 60–75 minutes</span><span class="pill">Synthetic cohort</span>
+:::
+
+## A beautiful dose–response curve is not a clinical recommendation
+
+Patient-derived tumour organoids offer an attractive bridge between molecular discovery and individualized treatment hypotheses. But growth inhibition in a dish depends on exposure, medium, assay conditions, sampling and model features. It does **not** directly estimate treatment benefit in a patient.
+
+Your task is to evaluate a promising biomarker claim without becoming either dismissive or credulous.
+
+### Learning objectives
+
+Distinguish analytical validity, clinical validity and clinical utility; diagnose confounding and information leakage; and propose an evaluation design that could support a clinically relevant decision.
+
+## 1. A fictional cohort with an apparently convincing signal
+
+[Download the synthetic cohort CSV](../exercises/biomarker-evidence/toy_cohort.csv). The rows are fabricated and intentionally small. They do not represent actual patients, treatment responses or clinical recommendations.
+
+Imagine an experimental predictor based on organoid growth inhibition and a candidate chromatin state. A retrospective cohort suggests that predictor-positive cases have longer progression-free survival after a particular therapy.
+
+Before treating this as a biomarker, ask:
+
+- Were the threshold and features fixed **before** testing the validation cohort?
+- Was the study restricted to treated patients, or can we distinguish prediction of *treatment benefit* from general prognosis?
+- Are specimen collection and viable-organoid establishment associated with tumour aggressiveness or other selection mechanisms?
+- How were missing specimens, dropout and batch-to-batch measurement variability handled?
+- Is outcome adjudication independent of predictor assignment?
+- Would a false-positive recommendation carry material clinical risk?
+
+## 2. Build an evidence ladder
+
+| Evidence | Central question | Common mistake |
+|---|---|---|
+| Analytical validity | Does the assay reliably measure the intended quantity? | Assuming an attractive plot implies reproducibility |
+| Clinical validity | Does the marker associate with the defined clinical endpoint in an appropriate population? | Using a discovery threshold as proof of generalizability |
+| Predictive value | Does the marker identify differential benefit from treatment? | Confusing prognosis with a treatment interaction |
+| Clinical utility | Does using the marker improve patient outcomes versus existing care? | Treating classification accuracy as a clinical outcome |
+
+The precise strength of the evidence depends on study design and context, not merely sample size or a nominal p value.
+
+## 3. Seminar challenge
+
+Propose a prospective validation plan with a pre-specified endpoint, eligibility criteria, assay failure handling, appropriate comparator, sample-size rationale and transparent plan for covariate adjustment. Explain whether randomization or treatment interaction evidence would be required to support a **predictive** rather than prognostic claim.
+
+### Read the fictional data critically
+
+The toy cohort deliberately omits important variables and should be used to uncover missing information, not to estimate a real clinical effect. Think about why a median comparison cannot handle censoring, selection, treatment allocation or confounders appropriately.
+
+## Further reading
+
+- van de Wetering M et al. *Prospective derivation of a living organoid biobank of colorectal cancer patients*. Cell (2015). [doi:10.1016/j.cell.2015.03.053](https://doi.org/10.1016/j.cell.2015.03.053).
+- National Cancer Institute, [Biomarker Testing for Cancer Treatment](https://www.cancer.gov/about-cancer/treatment/types/biomarker-testing-cancer-treatment).
+
+*Entirely synthetic case study. Designed for critical appraisal and not for patient care or treatment selection.*

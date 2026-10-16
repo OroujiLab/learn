@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recognizing 3D genome features · OroujiLab Learning</title>
+<style>
+:root{--ink:#35261e;--espresso:#2f1d14;--coffee:#4a3024;--walnut:#73533f;--copper:#a97a51;--ivory:#f8f5ef;--paper:#fffefb;--line:#e7ded2;--soft:#f2eae0}
+*{box-sizing:border-box}body{margin:0;padding:clamp(14px,3vw,28px);background:var(--ivory);font:16px/1.65 "Source Sans 3",system-ui,sans-serif;color:var(--ink)}
+h1,h2,h3{font-family:"DM Sans",system-ui,sans-serif;font-weight:400;color:var(--coffee);letter-spacing:-.025em}h1{font-size:clamp(22px,3.2vw,34px);margin:0 0 8px}h2{font-size:22px;margin:0}.lede{max-width:76ch;color:var(--walnut);margin:0 0 22px}
+.lab{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);gap:18px;align-items:start}
+.panel{background:var(--paper);padding:clamp(14px,2.5vw,24px);border:1px solid var(--line);border-radius:10px}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.feature{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff;cursor:pointer;text-align:left;color:var(--ink);font:inherit}
+.feature[aria-pressed="true"]{outline:3px solid var(--copper);outline-offset:1px;background:var(--ivory)}
+.feature:focus-visible,button:focus-visible{outline:3px solid var(--copper);outline-offset:3px}
+.feature canvas{display:block;width:100%;aspect-ratio:1;max-width:270px;margin:auto;border:1px solid var(--line);background:#fbf8f4;border-radius:5px}
+.feature .id{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--walnut);margin-bottom:9px}
+.small{font-size:.91rem;color:var(--walnut)}
+.choices{display:grid;grid-template-columns:1fr;gap:8px;margin:14px 0}
+.choice{padding:10px 13px;background:var(--paper);color:var(--coffee);border:1px solid #beaa98;border-radius:6px;font:inherit;cursor:pointer;text-align:left}
+.choice[disabled]{opacity:.7;cursor:default}.choice.correct{background:#e5ede7;border-color:#71947a}
+#feedback{min-height:90px;background:var(--soft);padding:14px;border-left:3px solid var(--copper);border-radius:4px;font-size:.95rem}
+#score{color:var(--espresso);font-weight:600}
+button.secondary{padding:11px 14px;background:var(--espresso);color:white;font:inherit;border:0;border-radius:6px;cursor:pointer;margin-top:12px}
+@media(max-width:760px){.lab{grid-template-columns:1fr}.panels{gap:9px}.feature{padding:9px}.panel{padding:13px}}
+</style></head><body>
+<h1>Can you identify the matrix signature?</h1>
+<p class="lede">Five independent, synthetic contact maps isolate characteristic features. Select one of the panels, choose its most plausible label, and read the interpretation note. These are idealized signatures; real Hi-C features may overlap.</p>
+<div class="lab"><section class="panel" aria-label="Five conceptual contact maps"><div id="maps" class="panels"></div>
+<p class="small">Every matrix is fictional, symmetric and distance-biased. The diagrams illustrate *enrichment signatures*, not an assay-derived 3D reconstruction.</p></section>
+<aside class="panel"><h2>Teach from evidence</h2><p class="small">Selected map: <strong id="selection">A</strong>. Which feature is most consistent with the pattern?</p>
+<div id="choices" class="choices"></div><div id="feedback" aria-live="polite">Choose an answer for map A. Reveal the explanation to distinguish the visual pattern from its possible mechanism.</div>
+<p>Identified: <span id="score">0 / 5</span></p>
+<button class="secondary" id="reveal">Reveal current map</button>
+<button class="secondary" id="reset" style="background:#73533f">Reset exercise</button>
+<p class="small">One map has a focal peak; others show a plaid, a contact domain, a boundary or a stripe. The question is deliberately qualitative—do not use this to choose caller thresholds.</p></aside></div>
+<script>
+(function(){
+"use strict";
+const N=16, keys=["compartment","domain","boundary","loop","stripe"], names=["A/B compartmental pattern","Contact domain (TAD-like)","Boundary / insulation change","Focal loop-like enrichment","Stripe-like enrichment"];
+const info=[
+"Compartmental patterns are preferential *long-range* contacts among like regions, often evident as plaid patterns after appropriate normalization. A/B labels require external annotation; the sign of a compartment eigenvector is arbitrary.",
+"A contact domain appears as enhanced within-interval contacts near the diagonal. A called TAD is an algorithm-dependent population-matrix feature, not a permanently sealed physical unit.",
+"A boundary can produce reduced contacts across adjacent intervals and a local insulation minimum. Its location depends on binning, depth and the metric used.",
+"A focal off-diagonal peak represents contact enrichment between two loci relative to a background. It does not prove a stable molecular tether or a causal enhancer-promoter interaction.",
+"A stripe is an approximately linear enrichment from an anchor across a series of positions. Loop extrusion is one possible mechanism, not a unique conclusion from a stripe."
+];
+const answers={}, panels=[], canvasByKey={};let selected=0;
+function bias(i,j){return .10+.47*Math.exp(-Math.abs(i-j)/2.5)}
+function value(type,i,j){
+ let v=bias(i,j),bi=Math.floor(i/4)%2,bj=Math.floor(j/4)%2;
+ if(type==="compartment") v+= bi===bj?.29:.005;
+ if(type==="domain")v+= (i>=4&&i<=11&&j>=4&&j<=11)?.33:.0;
+ if(type==="boundary")v+= (i<8&&j<8)||(i>=8&&j>=8)?.23:-.06;
+ if(type==="loop")v+= ((i===3&&j===12)||(i===12&&j===3))?.90:0;
+ if(type==="stripe")v+=((i===4&&j>=5&&j<=13)||(j===4&&i>=5&&i<=13))?.38:0;
+ return Math.max(0,Math.min(1,v));
+}
+function color(t){const a=[251,248,243],b=[48,30,20];return "rgb("+a.map((z,i)=>Math.round(z+(b[i]-z)*Math.min(1,t))).join(",")+")"}
+function draw(c,type){
+ const ctx=c.getContext("2d"),w=320,margin=17,size=286,step=size/N;ctx.clearRect(0,0,w,w);
+ for(let i=0;i<N;i++)for(let j=0;j<N;j++){ctx.fillStyle=color(value(type,i,j));ctx.fillRect(margin+j*step,margin+i*step,step+.2,step+.2)}
+ ctx.strokeStyle="#d2c2b4";ctx.strokeRect(margin,margin,size,size);
+ ctx.beginPath();ctx.strokeStyle="rgba(47,29,20,.45)";ctx.moveTo(margin,margin);ctx.lineTo(margin+size,margin+size);ctx.stroke();
+}
+const host=document.getElementById("maps");
+keys.forEach((k,i)=>{
+ const b=document.createElement("button");b.className="feature";b.setAttribute("aria-pressed",String(i===0));
+ const label=document.createElement("span");label.className="id";label.textContent="MAP "+String.fromCharCode(65+i);
+ const c=document.createElement("canvas");c.width=320;c.height=320;c.setAttribute("aria-label","Conceptual Hi-C contact map "+String.fromCharCode(65+i));
+ b.append(label,c);b.onclick=()=>setSelected(i);host.append(b);panels.push(b);canvasByKey[k]=c;draw(c,k);
+});
+function setSelected(i){selected=i;panels.forEach((p,j)=>p.setAttribute("aria-pressed",String(i===j)));document.getElementById("selection").textContent=String.fromCharCode(65+i);document.getElementById("feedback").textContent=answers[i]?"Correctly identified: "+info[i]:"Choose the best feature label for this synthetic map.";document.querySelectorAll(".choice").forEach((b,j)=>b.classList.toggle("correct",Boolean(answers[i]&&j===i)));}
+const choices=document.getElementById("choices");
+names.forEach((n,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=n;b.onclick=()=>{
+ if(i===selected){answers[selected]=true;document.getElementById("feedback").textContent="Correct. "+info[selected];b.classList.add("correct");}
+ else document.getElementById("feedback").textContent="Not the strongest match. Look at whether enrichment is long-range plaid, diagonal, focal or linear.";
+ document.getElementById("score").textContent=Object.keys(answers).length+" / 5";
+ };choices.append(b);});
+document.getElementById("reveal").onclick=()=>document.getElementById("feedback").textContent="Map "+String.fromCharCode(65+selected)+": "+names[selected]+". "+info[selected];
+document.getElementById("reset").onclick=()=>{Object.keys(answers).forEach(k=>delete answers[k]);document.getElementById("score").textContent="0 / 5";document.querySelectorAll(".choice").forEach(b=>b.classList.remove("correct"));setSelected(0)};
+setSelected(0);
+})();
+</script></body></html>

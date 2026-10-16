@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hi-C contact-map laboratory · OroujiLab Learning</title>
+<style>
+:root{--ink:#35261e;--espresso:#2f1d14;--walnut:#73533f;--ivory:#f8f5ef;--line:#e1d5c7;--paper:#fffefa}
+*{box-sizing:border-box}body{margin:0;padding:clamp(16px,3.5vw,34px);background:var(--ivory);color:var(--ink);font:16px/1.65 "Source Sans 3",system-ui,sans-serif}
+h1,h2{font-family:"DM Sans",system-ui,sans-serif;font-weight:400;letter-spacing:-.025em}h1{font-size:clamp(23px,3.6vw,33px);margin:0 0 8px}
+p{margin:0 0 1rem;max-width:73ch}.muted{color:#746458;font-size:.94rem}
+.lab{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);gap:clamp(17px,4vw,38px);align-items:start;margin-top:25px}
+.visual,.control-box{padding:clamp(14px,2.5vw,24px);background:var(--paper);border:1px solid var(--line);border-radius:6px}
+canvas{display:block;max-width:100%;width:100%;aspect-ratio:1;cursor:crosshair;touch-action:manipulation}label{display:block;color:var(--espresso);font-weight:600;margin:15px 0 6px}select,button{width:100%;min-height:44px;padding:10px 12px;background:#fff;border:1px solid #ae9684;border-radius:4px;color:var(--ink);font:inherit}
+button{cursor:pointer;background:var(--espresso);color:white;margin-top:16px;border-color:var(--espresso);font-weight:600}
+button:focus-visible,select:focus-visible,canvas:focus-visible{outline:3px solid #b78f6f;outline-offset:3px}
+#selection{border-top:1px solid var(--line);margin-top:20px;padding-top:15px;min-height:90px}
+.key{display:flex;justify-content:space-between;gap:10px;font-size:.82rem;color:#765e50;margin-top:12px}
+.scale{height:9px;background:linear-gradient(90deg,#fcf8f1,#dbc3ad,#977058,#4a3024,#2f1d14);border-radius:12px;margin-top:10px}
+.note{margin-top:25px;border-left:3px solid #8a624c;padding:9px 18px;background:#f4ede5;font-size:.95rem}
+caption{caption-side:bottom}small{color:#78685e}.mini{letter-spacing:.12em;text-transform:uppercase;color:#806651;font:600 11px system-ui,sans-serif}
+@media(max-width:780px){.lab{grid-template-columns:1fr}body{padding:14px}.control-box{max-width:none}}
+</style>
+</head>
+<body>
+<div class="mini">Interactive methods laboratory / synthetic data</div>
+<h1>What survives when you change resolution?</h1>
+<p class="muted">A contact map is a measurement of proximity-dependent ligation events, not a photograph of chromatin. Explore the effects of binning, sampling depth and distance-related contact decay. No real genomic locus or patient data are shown.</p>
+<div class="lab">
+<section class="visual" aria-label="Synthetic chromosome contact heatmap">
+<canvas id="heatmap" width="600" height="600" role="img" tabindex="0" aria-label="Synthetic symmetric Hi-C contact heatmap. Use the inspect button or mouse to examine cells."></canvas>
+<div class="scale" aria-hidden="true"></div>
+<div class="key"><span id="low">Lower relative count</span><span id="high">Higher relative count</span></div>
+<p class="muted" style="margin-top:12px">Both axes: a fictitious 240-kb segment at 10-kb base resolution. The coordinate labels are schematic, not a real human genomic locus.</p>
+</section>
+<aside class="control-box">
+<div class="mini">Change one assumption</div>
+<label for="resolution">Bin width</label>
+<select id="resolution"><option value="1">10 kb · 24 × 24 bins</option><option value="2">20 kb · 12 × 12 bins</option><option value="4">40 kb · 6 × 6 bins</option></select>
+<label for="depth">Relative sequencing depth</label>
+<select id="depth"><option value="0.15">Low · sparse sampling</option><option value="1" selected>Moderate · reference</option><option value="4">Higher · better sampling</option></select>
+<label for="display">Display</label>
+<select id="display"><option value="raw">Raw simulated pair counts</option><option value="oe">Distance-normalized O/E</option></select>
+<label for="markers">Annotations</label>
+<select id="markers"><option value="hide">Hide model features</option><option value="show">Reveal programmed domains and focal enrichment</option></select>
+<button id="inspect" type="button">Inspect the programmed focal interaction</button>
+<div id="selection" aria-live="polite">Choose settings, then select a matrix cell or inspect the focal interaction.</div>
+</aside>
+</div>
+<div class="note"><strong>Interpretation guardrails.</strong> Larger bins combine contacts and can make sparse data visually smoother, but lose positional precision. Higher sampling improves count stability, not the nominal bin width. This classroom model omits mapping bias, restriction-site effects, matrix balancing, variable mappability and statistical loop calling. Its “O/E” is a simple within-distance average, <em>not</em> ICE/KR balancing and not a true expected-contact model.</div>
+<script>
+(function(){
+"use strict";
+const N=24, baseKb=10, cv=document.getElementById("heatmap"), ctx=cv.getContext("2d");
+const resolution=document.getElementById("resolution"), depth=document.getElementById("depth"), display=document.getElementById("display"), markers=document.getElementById("markers"), selection=document.getElementById("selection");
+const loop=[5,17]; let sampled=[], matrix=[], expected=[], group=1, chosen=null;
+function rng(seed){let s=seed>>>0;return function(){s=(Math.imul(1664525,s)+1013904223)>>>0;return (s+.5)/4294967296}}
+function poisson(lam,r){if(lam<32){let p=1,k=0,threshold=Math.exp(-lam);do{k++;p*=r()}while(p>threshold);return k-1}let u=Math.max(r(),1e-12),v=r();return Math.max(0,Math.round(lam+Math.sqrt(lam)*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)))}
+function latent(i,j){const d=Math.abs(i-j),same=Math.floor(i/8)===Math.floor(j/8);let mu=20/Math.pow(d+1,0.83)*(same?1.7:1);if((i===loop[0]&&j===loop[1])||(i===loop[1]&&j===loop[0]))mu+=24;return mu}
+function compute(){group=Number(resolution.value);const mult=Number(depth.value),n=N/group,r=rng(20261015);sampled=Array.from({length:N},()=>Array(N).fill(0));for(let i=0;i<N;i++)for(let j=i;j<N;j++){const v=poisson(latent(i,j)*mult,r);sampled[i][j]=v;sampled[j][i]=v}
+matrix=Array.from({length:n},()=>Array(n).fill(0));for(let i=0;i<N;i++)for(let j=0;j<N;j++)matrix[Math.floor(i/group)][Math.floor(j/group)]+=sampled[i][j];
+expected=Array(n).fill(0);const num=Array(n).fill(0);for(let i=0;i<n;i++)for(let j=0;j<n;j++){const d=Math.abs(i-j);expected[d]+=matrix[i][j];num[d]++}expected=expected.map((v,k)=>v/num[k]);chosen=null;draw()}
+function getValue(i,j){const v=matrix[i][j];return display.value==="oe"?(expected[Math.abs(i-j)]?v/expected[Math.abs(i-j)]:0):v}
+function shade(t){t=Math.max(0,Math.min(1,t));const a=[251,248,242],b=[47,29,20];return "rgb("+a.map((v,k)=>Math.round(v+(b[k]-v)*Math.pow(t,0.85))).join(",")+")"}
+function draw(){const n=matrix.length, W=cv.width,H=cv.height,margin=69,size=468,step=size/n;ctx.clearRect(0,0,W,H);ctx.fillStyle="#fffefa";ctx.fillRect(0,0,W,H);
+let max=0;for(let i=0;i<n;i++)for(let j=0;j<n;j++)max=Math.max(max,getValue(i,j));
+for(let i=0;i<n;i++)for(let j=0;j<n;j++){const val=getValue(i,j);const t=display.value==="raw"?Math.log1p(val)/Math.log1p(max||1):Math.min(3,val)/3;ctx.fillStyle=shade(t);ctx.fillRect(margin+j*step,margin+i*step,step+.15,step+.15)}
+ctx.strokeStyle="#B9A89A";ctx.lineWidth=1;ctx.strokeRect(margin,margin,size,size);
+ctx.fillStyle="#705849";ctx.font="16px system-ui";ctx.textAlign="center";ctx.fillText("Genomic position (kb)",margin+size/2,35);
+ctx.save();ctx.translate(24,margin+size/2);ctx.rotate(-Math.PI/2);ctx.fillText("Genomic position (kb)",0,0);ctx.restore();
+ctx.font="12px system-ui";for(let q=0;q<=3;q++){let at=margin+q*size/3;ctx.fillText(String(q*80),at,margin+size+21);ctx.textAlign="right";ctx.fillText(String(q*80),margin-10,at+5);ctx.textAlign="center"}
+if(markers.value==="show"){ctx.strokeStyle="#D29B5C";ctx.lineWidth=2.5;ctx.setLineDash([6,5]);for(let k=8;k<=16;k+=8){let p=margin+k/group*step;ctx.beginPath();ctx.moveTo(p,margin);ctx.lineTo(p,margin+size);ctx.moveTo(margin,p);ctx.lineTo(margin+size,p);ctx.stroke()}ctx.setLineDash([]);let a=Math.floor(loop[0]/group),b=Math.floor(loop[1]/group);ctx.strokeStyle="#3B90A2";ctx.lineWidth=3.5;for(const [i,j] of [[a,b],[b,a]])ctx.strokeRect(margin+j*step+2,margin+i*step+2,step-4,step-4)}
+if(chosen){const [i,j]=chosen;ctx.strokeStyle="#D08642";ctx.lineWidth=3;ctx.strokeRect(margin+j*step+1,margin+i*step+1,step-2,step-2)}
+document.getElementById("low").textContent=display.value==="raw"?"Lower counts":"Lower O/E";document.getElementById("high").textContent=display.value==="raw"?"Higher counts":"Higher O/E";
+}
+function inspect(i,j){const n=matrix.length;if(i<0||j<0||i>=n||j>=n)return;chosen=[i,j];draw();const a=i*group*baseKb,b=j*group*baseKb,oe=expected[Math.abs(i-j)]?matrix[i][j]/expected[Math.abs(i-j)]:0;selection.textContent="Bins "+a+"–"+(a+group*baseKb)+" kb and "+b+"–"+(b+group*baseKb)+" kb · "+matrix[i][j].toLocaleString()+" simulated contact counts · O/E "+oe.toFixed(2)+". This is a pair-count, not a physical distance or validated loop call."}
+cv.addEventListener("click",function(e){const rect=cv.getBoundingClientRect(), x=(e.clientX-rect.left)*cv.width/rect.width,y=(e.clientY-rect.top)*cv.height/rect.height,step=468/matrix.length;inspect(Math.floor((y-69)/step),Math.floor((x-69)/step))});
+document.getElementById("inspect").addEventListener("click",()=>inspect(Math.floor(loop[0]/group),Math.floor(loop[1]/group)));
+[resolution,depth].forEach(el=>el.addEventListener("change",compute));[display,markers].forEach(el=>el.addEventListener("change",()=>{chosen=null;draw()}));compute();
+})();
+</script>
+</body>
+</html>

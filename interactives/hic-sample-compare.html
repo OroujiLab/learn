@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comparative Hi-C evidence laboratory · OroujiLab Learning</title>
+<style>
+:root{--ink:#35261e;--coffee:#4a3024;--espresso:#2f1d14;--walnut:#73533f;--ivory:#f8f5ef;--paper:#fffefb;--line:#e7ded2;--soft:#f2eae0}
+*{box-sizing:border-box}body{margin:0;padding:clamp(14px,3vw,26px);background:var(--ivory);font:16px/1.6 "Source Sans 3",system-ui,sans-serif;color:var(--ink)}
+h1,h2,h3{font-family:"DM Sans",system-ui,sans-serif;font-weight:400;color:var(--coffee);letter-spacing:-.025em}h1{font-size:clamp(22px,3.2vw,32px);margin:0 0 7px}
+h2{font-size:22px;margin:0 0 12px}.lede,.muted{color:var(--walnut)}
+.lede{max-width:81ch;margin:0 0 20px}.lab{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(250px,.55fr);gap:19px;align-items:start}
+.matrix-area,.controls{padding:clamp(14px,2.5vw,24px);border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+.matrix-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sample{min-width:0;border:1px solid var(--line);background:#fff;border-radius:8px;padding:10px}
+.sample h3{font-size:17px;margin:0 0 8px}.sample canvas{display:block;width:100%;max-width:260px;aspect-ratio:1;margin:0 auto;cursor:crosshair}
+.legend{height:10px;border-radius:20px;background:linear-gradient(90deg,#fcf8f4,#dbc3ad,#977058,#4a3024,#2f1d14);margin-top:13px}
+.legend.diff{background:linear-gradient(90deg,#50758d,#e1e9eb,#fcf8f4,#ead8c5,#8b4d30)}
+.legend-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--walnut)}
+label{display:block;margin:14px 0 6px;font-weight:600;color:var(--coffee)}
+select,button{font:inherit;border:1px solid #b5a090;border-radius:5px;padding:10px;width:100%;background:#fff;color:var(--ink)}
+button{background:var(--espresso);color:white;cursor:pointer;margin-top:14px}
+select:focus-visible,button:focus-visible{outline:3px solid #b78f6f;outline-offset:3px}
+.note{background:var(--soft);border-left:3px solid #a97a51;padding:14px;border-radius:4px;margin-top:15px}
+.sm{font-size:.91rem;color:var(--walnut);margin:10px 0}#inspect{min-height:55px}
+@media(max-width:880px){.lab{grid-template-columns:1fr}}
+@media(max-width:540px){.matrix-grid{grid-template-columns:1fr}.sample canvas{max-width:310px}}
+</style></head><body>
+<h1>Would you call this a differential contact?</h1>
+<p class="lede">Explore three invented sample conditions (A, B and recovery C), with two simulated replicate matrices per condition. Change the display and introduce a deliberately discordant B replicate. No statistical hypothesis test or real study result is calculated.</p>
+<div class="lab">
+<section class="matrix-area" aria-label="Three synthetic Hi-C matrices">
+<div class="matrix-grid">
+<div class="sample"><h3>Condition A · baseline</h3><canvas id="a" width="360" height="360" aria-label="Synthetic average contact matrix for condition A" role="img"></canvas></div>
+<div class="sample"><h3>Condition B · perturbed</h3><canvas id="b" width="360" height="360" aria-label="Synthetic average contact matrix for condition B" role="img"></canvas></div>
+<div class="sample"><h3>Condition C · recovery</h3><canvas id="c" width="360" height="360" aria-label="Synthetic average contact matrix for condition C" role="img"></canvas></div>
+</div>
+<div id="gradient" class="legend" aria-hidden="true"></div>
+<div class="legend-label"><span id="low">Lower display value</span><span id="high">Higher display value</span></div>
+<p class="sm">Blue boxes mark a programmed focal contact pair. Diagonal decay and block-like domains are deliberately simplified. Click a matrix pixel to examine its invented intensity.</p>
+<p id="inspect" class="note" aria-live="polite">Click a matrix cell or use the focal-contact button to inspect values across samples.</p>
+</section>
+<aside class="controls">
+<h2>Change the comparison</h2>
+<label for="display">Matrix transformation</label>
+<select id="display"><option value="raw">Raw simulated contacts</option><option value="oe">Within-distance observed/expected</option><option value="difference">Difference from A</option></select>
+<label for="scale">Colour scaling</label>
+<select id="scale"><option value="shared">One shared scale (prefer for comparison)</option><option value="independent">Independent autoscaling (potentially misleading)</option></select>
+<label for="rep">Replicate scenario</label>
+<select id="rep"><option value="concordant">B1 and B2 show focal enrichment</option><option value="discordant">B1 enriched; B2 lacks focal enrichment</option></select>
+<button type="button" id="focal">Inspect focal contact</button>
+<div id="interpretation" class="note" aria-live="polite"></div>
+<p class="sm">The toy values are generated from programmed signal functions and deterministic random variation. They are **not** patient measurements or HiC-ECC benchmark data. O/E here divides by the average at each genomic separation. It is not ICE/KR balancing or a validated differential-contact statistic.</p>
+</aside></div>
+<script>
+(function(){
+"use strict";
+const N=16,M=360,P=24,S=312/N,FOCAL=[3,12], reps=["a1","a2","b1","b2","c1","c2"];
+const els=Object.fromEntries(["display","scale","rep","interpretation","inspect","focal","low","high","gradient"].map(k=>[k,document.getElementById(k)]));
+const canvas={A:document.getElementById("a"),B:document.getElementById("b"),C:document.getElementById("c")};
+function unit(i,j,seed){let n=(Math.imul(i+3,92821)+Math.imul(j+7,68917)+seed*7919)>>>0;n^=n<<13;n^=n>>>17;n^=n<<5;return (n>>>0)/4294967296}
+function pairNoise(i,j,seed){const lo=Math.min(i,j),hi=Math.max(i,j);return .92+.16*unit(lo,hi,seed)}
+function base(i,j){const d=Math.abs(i-j);return 5+58/Math.pow(1+d,.83)+(((i<8&&j<8)||(i>=8&&j>=8))?15:0)}
+function isFocal(i,j){return (i===FOCAL[0]&&j===FOCAL[1])||(i===FOCAL[1]&&j===FOCAL[0])}
+function matrix(rep,discordant){const cond=rep[0],seed=rep.charCodeAt(0)+Number(rep[1])*17,depth={a:1,b:.76,c:1.08}[cond];
+return Array.from({length:N},(_,i)=>Array.from({length:N},(_,j)=>{
+ const extra=isFocal(i,j)?(cond==="a"?23:cond==="c"?45:(discordant&&rep==="b2"?23:88)):0;
+ const stripe=((i===5&&j>=6&&j<=13)||(j===5&&i>=6&&i<=13))?(cond==="b"?8:4):0;
+ return Math.max(0,Math.round((base(i,j)+extra+stripe)*pairNoise(i,j,seed)*depth));
+}));}
+function mean(m1,m2){return m1.map((row,i)=>row.map((v,j)=>(v+m2[i][j])/2))}
+function expected(m){const sums=Array(N).fill(0),counts=Array(N).fill(0);m.forEach((row,i)=>row.forEach((v,j)=>{const d=Math.abs(i-j);sums[d]+=v;counts[d]++}));return sums.map((v,d)=>v/counts[d])}
+let mats={},view={},bounds={},selected=null;
+function regenerate(){const d=els.rep.value==="discordant";const individual=Object.fromEntries(reps.map(r=>[r,matrix(r,d)]));
+mats={A:mean(individual.a1,individual.a2),B:mean(individual.b1,individual.b2),C:mean(individual.c1,individual.c2)};render();}
+function transformed(){const mode=els.display.value;if(mode==="raw")return mats;
+const oe={};for(const k of ["A","B","C"]){const exp=expected(mats[k]);oe[k]=mats[k].map((row,i)=>row.map((v,j)=>exp[Math.abs(i-j)]?v/exp[Math.abs(i-j)]:0))}
+if(mode==="oe")return oe;
+return {A:mats.A.map(row=>row.map(()=>0)),B:oe.B.map((row,i)=>row.map((v,j)=>v-oe.A[i][j])),C:oe.C.map((row,i)=>row.map((v,j)=>v-oe.A[i][j]))};}
+function shade(t,diff){t=Math.max(0,Math.min(1,t));const a=diff?(t<.5?[72,112,139]:[252,248,244]):[252,248,244];
+const b=diff?(t<.5?[252,248,244]:[138,71,42]):[47,29,20];let u=diff?(t<.5?2*t:2*(t-.5)):t;
+return "rgb("+a.map((v,i)=>Math.round(v+(b[i]-v)*u)).join(",")+")"}
+function render(){view=transformed();const mode=els.display.value,diff=mode==="difference",shared=els.scale.value==="shared";
+const all=Object.values(view).flat(2),minAll=Math.min(...all),maxAll=Math.max(...all);
+for(const k of ["A","B","C"]){const local=view[k].flat();const min=shared?minAll:Math.min(...local),max=shared?maxAll:Math.max(...local),lim=Math.max(Math.abs(min),Math.abs(max),.001);
+bounds[k]=diff?[-lim,lim]:[min,max];
+const ctx=canvas[k].getContext("2d");ctx.clearRect(0,0,M,M);
+for(let i=0;i<N;i++)for(let j=0;j<N;j++){const val=view[k][i][j];const t=(val-bounds[k][0])/(bounds[k][1]-bounds[k][0]||1);ctx.fillStyle=shade(t,diff);ctx.fillRect(P+j*S,P+i*S,S+.16,S+.16)}
+ctx.strokeStyle="#c7b4a5";ctx.strokeRect(P,P,N*S,N*S);
+ctx.strokeStyle="rgba(47,29,20,.30)";ctx.beginPath();ctx.moveTo(P,P);ctx.lineTo(P+N*S,P+N*S);ctx.stroke();
+ctx.strokeStyle="#34849c";ctx.lineWidth=3;for(const [i,j] of [[3,12],[12,3]])ctx.strokeRect(P+j*S+2,P+i*S+2,S-4,S-4);
+}
+els.gradient.className="legend"+(diff?" diff":"");
+els.low.textContent=diff?"Negative relative difference":"Lower display value";els.high.textContent=diff?"Positive relative difference":"Higher display value";
+els.interpretation.textContent=(els.rep.value==="discordant"?"B1 and B2 disagree at the programmed focal contact: a dramatic condition-mean image would conceal this replicate discrepancy. ":"Both programmed B replicates support the focal enhancement; real data would still require QC, replication and inferential statistics. ")
++(shared?"All three images use a shared colour scale. ":"Independent autoscaling can magnify or conceal differences between conditions. ")
++(diff?"The signed view subtracts A from B and C after simple O/E; it is descriptive only.":mode==="oe"?"Within-distance O/E removes the toy average distance trend but is not a joint normalization method.":"Raw counts contain depth and distance biases; they should not be interpreted as calibrated fold changes.");
+if(selected)inspect(selected[0],selected[1]);}
+function inspect(i,j){selected=[i,j];const vals=["A","B","C"].map(k=>k+": "+view[k][i][j].toFixed(2)).join(" · ");els.inspect.textContent="Selected bins "+(i+1)+" and "+(j+1)+" (synthetic): "+vals+". These values have no statistical significance or physical-distance interpretation."}
+for(const k of ["A","B","C"])canvas[k].addEventListener("click",e=>{const r=canvas[k].getBoundingClientRect();const x=(e.clientX-r.left)*M/r.width,y=(e.clientY-r.top)*M/r.height;const i=Math.floor((y-P)/S),j=Math.floor((x-P)/S);if(i>=0&&i<N&&j>=0&&j<N)inspect(i,j)});
+els.focal.onclick=()=>inspect(3,12);
+els.display.onchange=render;els.scale.onchange=render;els.rep.onchange=regenerate;regenerate();
+})();
+</script></body></html>
