@@ -1,0 +1,71 @@
+---
+title: "OroujiLab Learning"
+title-block-banner: false
+page-layout: full
+sidebar: false
+page-navigation: false
+toc: false
+---
+
+::: {.hero-section}
+::: {}
+<div class="hero-kicker">OroujiLab / Learning · Open educational resource</div>
+
+# Learn the methods. Question the evidence.
+
+<div class="hero-lead">From chromatin mechanisms to practical analysis; from experimental models to clinical inference. A navigable collection of free teaching material, built around what a dataset can—and cannot—establish.</div>
+
+<a class="cta-link" href="lessons/index.html">Explore the lesson directory ↗</a>
+:::
+::: {.hero-figure}
+![](assets/chromatin-hero.svg){fig-alt="Original conceptual chromatin illustration; not experimental data."}
+:::
+:::
+
+::: {.learning-home-content}
+<div class="eyebrow">Four connected learning tracks</div>
+
+## Follow the biological question, not only the technique
+
+<p class="section-intro">Begin on a laptop, move to an HPC cluster, interrogate regulatory DNA and learn how to distinguish a promising cancer model from a clinically useful biomarker.</p>
+
+```{=html}
+<div class="track-grid">
+<a class="track-card" href="tracks/computational.html"><div class="track-number">01 / COMPUTATIONAL</div><h3>Computational genomics</h3><p>Sequence data, reproducibility, local workflows, HPC, and high-dimensional analysis.</p></a>
+<a class="track-card" href="tracks/experimental.html"><div class="track-number">02 / EXPERIMENTAL</div><h3>Experimental epigenomics</h3><p>Assay mechanisms, controls, quantitative interpretation and limitations.</p></a>
+<a class="track-card" href="tracks/cancer.html"><div class="track-number">03 / CANCER BIOLOGY</div><h3>Cancer biology & models</h3><p>Enhancers, cell states, colorectal cancer organoids, and disease heterogeneity.</p></a>
+<a class="track-card" href="tracks/translational.html"><div class="track-number">04 / TRANSLATIONAL</div><h3>Translational oncology</h3><p>Biomarker validation, study design, clinical endpoints, and useful evidence.</p></a>
+</div>
+
+```
+
+<div class="eyebrow">Featured teaching modules</div>
+
+[Browse by topic, difficulty and format →](lessons/index.qmd)
+
+## Begin with a challenging question
+
+```{=html}
+<div class="lesson-collection">
+<a class="module-card" href="lessons/local-to-hpc.html"><span class="label">Computational · Foundations</span><h3>From laptop to HPC</h3><p>Inspect sequencing reads, document provenance, and understand scheduled computing.</p><span class="module-next">Read lesson →</span></a>
+<a class="module-card" href="lessons/cutrun-benchmarking.html"><span class="label">Epigenomics · Intermediate</span><h3>When peak callers disagree</h3><p>Compare computational outputs without mistaking agreement for accuracy.</p><span class="module-next">Read lesson →</span></a>
+<a class="module-card" href="lessons/hic-resolution-lab.html"><span class="label">3D Genomics · Interactive</span><h3>What survives Hi-C resolution?</h3><p>Change depth, binning and normalization in an original simulated contact map.</p><span class="module-next">Explore lesson →</span></a>
+<a class="module-card" href="lessons/enhancer-to-organoid.html"><span class="label">Cancer biology · Advanced</span><h3>Is that enhancer causal?</h3><p>Assess accessibility, chromatin contacts, perturbation, and model context.</p><span class="module-next">Read lesson →</span></a>
+<a class="module-card" href="lessons/hic-structures.html"><span class="label">3D Genomics · Illustrated</span><h3>How does the genome fold?</h3><p>Recognize compartments, contact domains, boundaries, loops and stripes—and distinguish maps from molecular mechanisms.</p><span class="module-next">Explore lesson →</span></a>
+<a class="module-card" href="lessons/comparing-hic-samples.html"><span class="label">3D Genomics · Comparative analysis</span><h3>What changes between Hi-C samples?</h3><p>Compare two conditions, then multiple samples, while separating technical bias from candidate structural change.</p><span class="module-next">Explore lesson →</span></a>
+<a class="module-card" href="lessons/hic-assays.html"><span class="label">Experimental · Methods selection</span><h3>Which 3D-genome assay fits your question?</h3><p>Compare targeted 3C methods, Hi-C and Micro-C, protein-enriched contacts, GAM and SPRITE.</p><span class="module-next">Explore lesson →</span></a>
+<a class="module-card" href="lessons/atac-quality.html"><span class="label">Experimental · QC</span><h3>Can you trust your ATAC-seq library?</h3><p>Interpret TSS enrichment, FRiP, fragment lengths, mapping and replicates.</p><span class="module-next">Read lesson →</span></a>
+<a class="module-card" href="lessons/chromatin-assays.html"><span class="label">Experimental · Methods</span><h3>ChIP, CUT&RUN or CUT&Tag?</h3><p>Biochemistry, controls, target context and appropriate inference.</p><span class="module-next">Read lesson →</span></a>
+<a class="module-card" href="lessons/organoid-epigenomics-design.html"><span class="label">Organoids · Study design</span><h3>Design the biological unit</h3><p>Plan replicates and assay integration without mistaking cells for independent samples.</p><span class="module-next">Read lesson →</span></a>
+<a class="module-card" href="lessons/gosling-genome-tracks.html"><span class="label">Interactive · Visualization</span><h3>Explore genomic evidence with Gosling</h3><p>Inspect BED, bedGraph and toy matrices, then try a public Gosling chart.</p><span class="module-next">Open studio →</span></a>
+<a class="module-card" href="lessons/biomarker-evidence.html"><span class="label">Translational · Seminar</span><h3>Can an organoid result guide care?</h3><p>Critically appraise model-derived biomarkers with synthetic cases.</p><span class="module-next">Read lesson →</span></a>
+</div>
+
+```
+
+## Built for scientifically grounded teaching
+
+Primary literature, original explanatory figures, reproducible exercises and specific interpretation questions are embedded throughout. Toy examples are always identified as synthetic; the site is a developing resource and not evidence that each module has been delivered as a formal course.
+
+[Teaching approach →](teaching.qmd)
+:::

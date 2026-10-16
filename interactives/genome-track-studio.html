@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Genome Track Studio</title>
+<style>body{font:16px/1.6 system-ui;background:#F8F5EF;color:#35261E;margin:0;padding:22px}h1,h2{font-weight:400;color:#4A3024}h1{font-size:30px}.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(230px,.75fr);gap:20px}.panel{background:#FFFEFB;border:1px solid #E7DED2;border-radius:9px;padding:22px}textarea,input{width:100%;box-sizing:border-box;padding:10px;border:1px solid #D8C2AE;border-radius:4px;font:14px monospace}label{display:block;margin:13px 0 5px}button{background:#4A3024;color:white;border:0;border-radius:5px;padding:10px;cursor:pointer;margin:5px 4px 5px 0}canvas{width:100%;height:auto;background:#fff;border:1px solid #E7DED2}.panel{overflow-x:auto}#feedback{background:#F2EAE0;padding:14px;margin-top:14px;min-height:40px}.hidden{display:none}p{color:#73533F}.small{font-size:.87rem}@media(max-width:750px){.layout{grid-template-columns:1fr}#graph{width:680px;max-width:none}.panel{scrollbar-width:thin}} .small{font-size:.88rem}#gosling{max-width:100%;overflow-x:auto} .hidden{display:none!important} </style></head>
+<body><h1>Genome Track Studio</h1><p>Compare fictional BED annotations, bedGraph quantitative signal and a small tabular contact matrix. Load your own small local text files without uploading anything. Then explore a public Gosling example online.</p>
+<nav><button id="btracks">BED + bedGraph</button><button id="bmatrix">Contact matrix TSV</button><button id="bgosling">Gosling (online)</button></nav>
+<div class="layout"><section class="panel"><h2 id="heading">Aligned genomic tracks</h2><canvas id="graph" width="800" height="420" aria-label="Genomics plot"></canvas><img id="gosling-figure" class="hidden" src="../assets/gosling-track-preview.svg" alt="Original compact, high-resolution synthetic genomic track visualization showing aligned cytobands, numerical signal and BED intervals. All example values are invented." loading="lazy" style="display:block;width:100%;min-width:0;height:auto;max-width:100%;border:1px solid #E7DED2;border-radius:6px"/><div id="gosling" class="hidden" style="min-height:150px" aria-label="Externally loaded Gosling chart"></div><p class="small" id="caption">Synthetic data only; BED/bedGraph are zero-based, half-open. No physical 3D structure is implied. On narrow screens, swipe the plot horizontally to read its annotations.</p></section>
+<aside class="panel"><div id="controls-tracks"><label for="bed">BED: chromosome, start, end, label</label><textarea id="bed" rows="5"></textarea><label for="bg">bedGraph: chromosome, start, end, signal</label><textarea id="bg" rows="5"></textarea><button id="rendertracks">Render tracks</button><button id="resettracks">Restore sample</button><label for="bedfile">Load local BED</label><input type="file" id="bedfile" accept=".bed,.txt,.tsv"><label for="bgfile">Load local bedGraph</label><input type="file" id="bgfile" accept=".bedgraph,.bdg,.txt,.tsv"></div>
+<div id="controls-matrix" class="hidden"><label for="matrix">Tab-separated square contact matrix (max 40 bins)</label><textarea id="matrix" rows="9"></textarea><button id="rendermatrix">Render matrix</button><label for="matrixfile">Load local text matrix</label><input id="matrixfile" type="file" accept=".txt,.tsv,.csv"></div>
+<div id="controls-gosling" class="hidden"><p>Gosling uses declarative specifications to encode genomic positions, values and annotations. A labelled <strong>offline schematic preview</strong> always works; a separate live example loads genuine public hg38 cytoband data when the external library and source are reachable.</p><button id="loadgosling">Load live public Gosling chart</button><p class="small"><a href="https://gosling-lang.org/tutorials/" target="_blank" rel="noopener">Official Gosling tutorial and working example ↗</a></p></div>
+<p class="small"><a href="../assets/gosling-workflow.svg" target="_blank" rel="noopener">Open vector Gosling schematic at full size ↗</a></p><div id="feedback" aria-live="polite"></div></aside></div>
+<p class="small">Limitations: the local viewer parses small plain-text files only. Indexed BigWig/BigBed and binary .hic/.cool/.mcool are not parsed. For large data, use a compatible Gosling URL/data source or HiGlass tileset service. Never upload unpublished or identifiable material to public servers.</p>
+<script>
+(function(){
+const $=x=>document.getElementById(x),ctx=$("graph").getContext("2d");
+const b="chr7\t100\t168\tpeak_A\nchr7\t205\t280\tpeak_B\nchr7\t325\t370\tpromoter\nchr7\t405\t470\tcandidate_element";
+const g="chr7\t100\t145\t3\nchr7\t145\t205\t8\nchr7\t205\t285\t4\nchr7\t285\t325\t2\nchr7\t325\t380\t10\nchr7\t380\t470\t5";
+const m=Array.from({length:10},(_,i)=>Array.from({length:10},(_,j)=>Math.round(5+35/Math.pow(1+Math.abs(i-j),.9)+(((i<5)===(j<5))?10:0)+((i===2&&j===8)||(i===8&&j===2)?35:0))).join("\t")).join("\n");
+$("bed").value=b;$("bg").value=g;$("matrix").value=m;
+function info(t){$("feedback").textContent=t}
+function clear(){ctx.clearRect(0,0,800,420);ctx.fillStyle="#FFFEFB";ctx.fillRect(0,0,800,420);ctx.font="15px system-ui";ctx.fillStyle="#73533F";}
+function rows(s,kind){const out=[];for(const z of s.trim().split(/\r?\n/)){if(!z.trim()||z.startsWith("#"))continue;const a=z.trim().split(/\t+|\s{2,}/);if(a.length<(kind==="bg"?4:3))throw Error("Each entry must be tab-separated.");const start=+a[1],end=+a[2],value=+a[3];if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||end<=start)throw Error("Invalid start/end.");if(kind==="bg"&&!Number.isFinite(value))throw Error("bedGraph requires a signal value.");out.push({chr:a[0],start,end,label:a[3]||"peak",value});if(out.length>400)throw Error("Use 400 or fewer intervals.")}return out}
+function tracks(){try{const bed=rows($("bed").value,"bed"),sig=rows($("bg").value,"bg"),all=[...bed,...sig];if(!all.length)throw Error("Nothing to plot.");if(all.some(x=>x.chr!==all[0].chr))throw Error("Use one chromosome for this compact lesson.");const min=Math.min(...all.map(x=>x.start)),max=Math.max(...all.map(x=>x.end)),x=v=>72+656*(v-min)/Math.max(1,max-min);clear();ctx.fillText(all[0].chr+" : "+min+"-"+max+" (0-based)",73,40);ctx.fillText("BED annotations",10,95);bed.forEach((a,i)=>{ctx.fillStyle=i%2?"#A97A51":"#73533F";ctx.fillRect(x(a.start),115+(i%3)*30,Math.max(2,x(a.end)-x(a.start)),18)});ctx.fillStyle="#73533F";ctx.fillText("bedGraph signal",10,260);const maxv=Math.max(1,...sig.map(a=>Math.abs(a.value)));sig.forEach(a=>{const h=100*Math.abs(a.value)/maxv;ctx.fillStyle=a.value>=0?"#4A3024":"#B06856";ctx.fillRect(x(a.start),375-h,Math.max(1,x(a.end)-x(a.start)),h)});ctx.strokeStyle="#D8C2AE";ctx.beginPath();ctx.moveTo(72,375);ctx.lineTo(728,375);ctx.stroke();info("Rendered "+bed.length+" intervals and "+sig.length+" signal segments. This does not identify causal enhancers or target genes.");$("caption").textContent="BED/bedGraph synthetic tracks use zero-based, half-open coordinates. On phones, swipe the plot horizontally. Colocalization does not prove regulation.";}
+catch(e){info(e.message)}}
+function matrix(){try{const a=$("matrix").value.trim().split(/\r?\n/).map(z=>z.trim().split(/[\s,]+/).map(Number)),n=a.length;if(!n||n>40||a.some(r=>r.length!==n||r.some(v=>!Number.isFinite(v)||v<0)))throw Error("Matrix must be square, numeric, nonnegative; 40 or fewer rows.");clear();const max=Math.max(1,...a.flat()),size=330,step=size/n;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const t=Math.log1p(a[i][j])/Math.log1p(max),k=Math.round(249-191*t);ctx.fillStyle="rgb("+k+","+Math.round(k*.83)+","+Math.round(k*.73)+")";ctx.fillRect(235+j*step,35+i*step,step+.2,step+.2)}ctx.fillStyle="#73533F";ctx.fillText(n+" x "+n+" toy contact matrix (no genomic coordinates)",180,402);info("Rendered a simple matrix. It is not an ICE/KR-balanced Hi-C map or loop call.");$("caption").textContent="Synthetic contact matrix: rows/columns represent abstract bins only. No assembly or genomic coordinates are implied. Swipe the plot on mobile.";}
+catch(e){info(e.message)}}
+function previewGosling(){
+ // The associated original SVG is the visible offline fallback. This canvas is legacy and hidden in the Gosling tab.
+ clear();const left=90,right=742,top=132;ctx.font="20px system-ui";ctx.fillStyle="#4A3024";ctx.fillText("Offline: conceptual cytoband encoding",72,53);
+ ctx.fillStyle="#73533F";ctx.font="15px system-ui";ctx.fillText("Example only — coloured bands are invented, not hg38 annotations",72,80);
+ ctx.strokeStyle="#D8C2AE";ctx.strokeRect(left,top,right-left,60);
+ const widths=[55,60,37,84,62,45,95,61,80,73],fills=["#D8C2AE","#7B5946","#EAE0D6","#A97A51","#EFE7DB","#6C4B39","#BDA28E","#EFE7DB","#9B785F","#D8C2AE"];let x=left;const scale=(right-left)/widths.reduce((a,b)=>a+b,0);
+ widths.forEach((w,i)=>{ctx.fillStyle=fills[i];ctx.fillRect(x,top+1,w*scale,58);x+=w*scale});
+ ctx.fillStyle="#4A3024";ctx.font="17px system-ui";ctx.fillText("Gosling teaching principle: map a genomic start/end to rectangles and a categorical stain to colour.",72,260);
+ ctx.font="15px system-ui";ctx.fillStyle="#73533F";ctx.fillText("External, authentic example: public hg38 cytobands · UCSC-derived CSV · Gosling JSON specification.",72,309);
+ ctx.fillText("If the network is blocked, click the official tutorial link at right.",72,348);
+ $("caption").textContent="Offline fallback: illustrative coloured bands (not actual hg38 data). A live Gosling render, when loaded, uses an externally hosted public dataset.";
+}
+function tab(kind){for(const z of ["tracks","matrix","gosling"])$("controls-"+z).classList.toggle("hidden",z!==kind);$("graph").classList.toggle("hidden",kind==="gosling");$("gosling-figure").classList.toggle("hidden",kind!=="gosling");$("gosling").classList.add("hidden");$("heading").textContent=kind==="tracks"?"Aligned genomic tracks":kind==="matrix"?"Synthetic contact matrix":"Gosling declarative visualization";if(kind==="tracks")tracks();if(kind==="matrix")matrix();if(kind==="gosling"){previewGosling();info("This is a labelled, synthetic OFFLINE preview. Use the button for the optional real Gosling cytoband chart; if external services are blocked, the preview remains visible.");}}
+function handle(file,area){$(file).onchange=async()=>{const f=$(file).files?.[0];if(!f)return;if(f.size>1024*1024){info("Maximum 1 MB text file.");return}if(/\.(bw|bigwig|bb|bigbed|hic|cool|mcool)$/i.test(f.name)){info("Binary or indexed format not supported.");return}$(area).value=await f.text();info("Loaded "+f.name+" locally. Press Render to inspect.")}}
+handle("bedfile","bed");handle("bgfile","bg");handle("matrixfile","matrix");
+$("rendertracks").onclick=tracks;$("resettracks").onclick=()=>{$("bed").value=b;$("bg").value=g;tracks()};$("rendermatrix").onclick=matrix;
+$("btracks").onclick=()=>tab("tracks");$("bmatrix").onclick=()=>tab("matrix");$("bgosling").onclick=()=>tab("gosling");
+let goslingLoading=false;
+function activateGosling(){
+ try{
+  if(!window.gosling || typeof window.gosling.embed!=="function")throw Error("Gosling embed API was not found.");
+  const spec={
+   assembly:"hg38",layout:"linear",xDomain:{chromosome:"chr7"},
+   tracks:[{
+    data:{url:"https://raw.githubusercontent.com/sehilyi/gemini-datasets/master/data/UCSC.HG38.Human.CytoBandIdeogram.csv",
+      type:"csv",chromosomeField:"Chromosome",genomicFields:["chromStart","chromEnd"]},
+    mark:"rect",
+    x:{field:"chromStart",type:"genomic"},
+    xe:{field:"chromEnd",type:"genomic"},
+    color:{field:"Stain",type:"nominal"},
+    width:620,height:110
+   }]
+  };
+  $("gosling").replaceChildren();
+  window.gosling.embed($("gosling"),spec);
+  window.setTimeout(()=>{
+   if($("gosling").childElementCount>0){
+    $("gosling").classList.remove("hidden");
+    $("graph").classList.add("hidden");
+    $("gosling-figure").classList.add("hidden");
+    $("caption").textContent="Live Gosling: public hg38 cytoband example. Rendering requires external resources and may vary by browser.";
+    info("Live Gosling was initialized. Explore genomic positioning and category-to-colour mapping. Data are public, not uploaded by this page.");
+   }else{
+    info("Gosling loaded but did not render a chart. The offline teaching preview remains available; see the official tutorial.");
+   }
+  },700);
+ }catch(e){info("Live Gosling is unavailable in this preview: "+e.message+" The offline schematic remains available.");}
+}
+$("loadgosling").onclick=()=>{
+ if(goslingLoading){info("Gosling is loading; the offline preview remains available.");return}
+ if(window.gosling?.embed){activateGosling();return}
+ goslingLoading=true;info("Loading Gosling 1.0.6 and a public cytoband dataset. The vector teaching diagram remains visible.");
+ const urls=[
+  "https://cdn.jsdelivr.net/npm/gosling.js@1.0.6/dist/gosling.min.js",
+  "https://unpkg.com/gosling.js@1.0.6/dist/gosling.min.js"
+ ];
+ function load(i){
+  if(i>=urls.length){goslingLoading=false;info("External Gosling scripts are blocked or unavailable here. The offline demo still works; use the official Gosling tutorial link for the real example.");return}
+  const sc=document.createElement("script");
+  sc.src=urls[i];sc.async=true;
+  sc.onload=()=>{goslingLoading=false;activateGosling()};
+  sc.onerror=()=>load(i+1);
+  document.head.appendChild(sc);
+ }
+ load(0);
+};
+tab("tracks");
+})();
+</script></body></html>
