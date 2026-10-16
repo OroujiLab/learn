@@ -1,0 +1,44 @@
+---
+title: "The 3D-genome interpretation glossary"
+subtitle: "A practical vocabulary for reading contact matrices without confusing observations, algorithms and mechanisms"
+---
+
+## Measurements versus interpretations
+
+| Term | What it actually means | What it does **not** establish |
+|---|---|---|
+| **Valid contact pair** | A read pair retained after assay-specific alignment and filtering | That two loci physically touch in every nucleus |
+| **Contact matrix** | Binned count or normalized measure of proximity-ligation contacts | A unique, direct 3D reconstruction |
+| **Genomic bin** | A fixed-width genomic interval contributing one matrix row/column | Effective resolution or accuracy |
+| **Nominal resolution** | The chosen bin size (e.g., 10 kb) | That all features of that width are detectably supported |
+| **Depth** | Number of informative contacts sequenced and retained | Guaranteed sensitivity or effective resolution |
+| **Cis/trans ratio** | Relative within-chromosome versus between-chromosome contacts | A comprehensive library-quality assessment by itself |
+| **Distance decay** | The decline in contact frequency with increasing linear separation | A direct physical distance curve |
+| **Matrix balancing (ICE/KR)** | Algorithms adjusting row/column coverage or other implicit matrix biases | A causal correction or full elimination of technical bias |
+| **Observed/expected (O/E)** | Contact enrichment relative to a chosen genomic-distance baseline | Statistical significance, an ICE/KR-balanced matrix or biological specificity |
+| **A/B compartments** | Groups of loci with preferential long-range contact profiles | Absolute nuclear localization or a fixed single-cell state |
+| **Compartment eigenvector** | Numerical axis used to summarize contact-profile variation | A sign with inherent A/B biological meaning without external orientation |
+| **TAD/contact domain** | Region with enriched within-region contacts in a population map | A rigid chromatin container in every cell |
+| **Boundary/insulation** | Location/metric reflecting reduced contact across neighbouring intervals | A universal structural barrier independent of method |
+| **Focal peak/loop call** | Statistically or algorithmically enriched matrix bin pair | A stable physical tether, direct enhancer targeting or mechanism |
+| **Stripe** | Linear contact enrichment extending from a genomic anchor | Definitive proof of loop extrusion |
+| **Loop extrusion** | Mechanistic framework for moving loop boundaries along chromatin | The only possible source of a given matrix signature |
+| **Biological replicate** | Independently prepared biological sample | Another split of the same sequencing library |
+| **Differential contact** | A change in contact frequency evaluated under an explicit comparison model | A significant biological change without replicate-aware testing |
+| **Sample-specific pattern** | Contact feature more characteristic of a sample under a defined method | A causal, exclusive or clinically actionable feature |
+| **Copy-number variation** | Change in genomic DNA dosage across samples | Mere nuisance noise; it may be biologically important and must be modeled |
+| **Proximity ligation** | Capturing ligation junctions between crosslinked fragments | Direct real-time imaging of chromatin |
+
+## Learn by using the terms
+
+**Structure identification:** [five independent example maps](hic-structures.qmd).
+
+**Experimental design:** [assay-family selection](hic-assays.qmd).
+
+**Depth versus spatial inference:** [resolution and sampling laboratory](hic-resolution-lab.qmd).
+
+**Defensible differences:** [multi-sample comparison laboratory](comparing-hic-samples.qmd).
+
+## Primary teaching references
+
+The terminology follows the measurement-versus-inference approach in [Tavallaee and Orouji, *Computational and Structural Biotechnology Journal* (2025; online 2024)](https://doi.org/10.1016/j.csbj.2024.12.018), [Rao et al., *Cell* (2014)](https://doi.org/10.1016/j.cell.2014.11.021), and [Forcato et al., *Nature Methods* (2017)](https://doi.org/10.1038/nmeth.4325).

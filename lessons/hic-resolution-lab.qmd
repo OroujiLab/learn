@@ -1,0 +1,94 @@
+---
+title: "What survives when you change Hi-C resolution?"
+subtitle: "An interactive contact-map laboratory: binning, read depth, distance decay and interpretation"
+---
+
+::: {.lesson-meta}
+<span class="pill">Advanced computational genomics</span><span class="pill">70–90 minutes</span><span class="pill">Interactive, entirely synthetic</span><span class="pill">No software installation</span>
+:::
+
+## The apparent loop that might disappear
+
+You have a beautiful Hi-C contact map: a bright off-diagonal pixel, two apparently neat blocks along the diagonal, and a candidate regulatory gene nearby. Your collaborator zooms in and asks whether that is a **chromatin loop**. You should ask a different question first: *what did the experiment measure, and how did the display turn those measurements into that pixel?*
+
+Hi-C and related proximity-ligation assays summarize how often genomic fragments are captured as spatially proximate pairs in the assayed cell population. The resulting matrix is **not** an image of one nucleus, nor does a high contact count directly quantify physical distance. Genomic separation, depth, fragment recovery, mapping and normalization shape the matrix; methods for identifying loops and contact domains are themselves model-dependent ([Lieberman-Aiden et al., 2009](https://doi.org/10.1126/science.1181369); [Rao et al., 2014](https://doi.org/10.1016/j.cell.2014.11.021)).
+
+### Learning objectives
+
+After this lesson, students should be able to:
+
+1. Read a symmetric intra-chromosomal contact matrix without treating pixel intensity as physical distance.
+2. Explain why close-by genomic bins often have more contacts even without a focal loop.
+3. Distinguish **bin width** from effective resolution and sequencing depth.
+4. Interpret raw contact counts versus simple observed/expected (O/E) normalization, without confusing O/E with matrix balancing.
+5. Propose a scientifically defensible validation strategy for a focal Hi-C enrichment.
+
+## 1. Experiment on a synthetic 240-kb region
+
+<iframe src="../interactives/hic-contact-lab.html" title="Interactive simulated Hi-C map — manipulate binning, coverage and observed over expected display" loading="lazy" class="evidence-iframe hic-iframe"></iframe>
+
+*Original, computationally generated teaching visual. All coordinates, contact counts, domain boundaries and focal enrichments are synthetic; none are derived from patient material or an OroujiLab experiment.*
+
+Try these manipulations **in order**, recording one observation each time:
+
+**A — Depth without changing bins.** Keep 10-kb bins and raw-count display. Compare low, moderate and higher sampling. Which weak pixels fluctuate or disappear? Does more depth magically make 10-kb bins become 1-kb bins?
+
+**B — Binning without adding data.** At the same depth, change from 10-kb to 40-kb bins. What is gained by aggregating counts? What positional information is sacrificed? A dramatic-looking coarse pixel is not evidence that an interaction has become more precisely localized.
+
+**C — Distance decay.** With moderate sampling, compare raw counts and O/E. The exercise computes the mean count for each bin separation and divides observed counts by that mean. How does adjusting for distance-dependent baseline change the apparent prominence of off-diagonal features? This simplified calculation **does not** correct for mappability, restriction-site density or other genomic biases.
+
+**D — Reveal the hidden model.** Show the deliberately programmed domain boundaries and focal enrichment. Without revealing them, how would you distinguish an algorithmically inferred feature from one inserted into the simulation?
+
+::: {.callout-warning}
+### What this exercise does not teach
+A strong off-diagonal pixel is *not automatically* a statistically significant loop, an enhancer–promoter link, or a physical bridge in each cell. The toy generator and O/E display are intentionally simpler than real Hi-C data processing; do not infer empirical read requirements or absolute resolution thresholds from it.
+:::
+
+## 2. What you should check in real data
+
+| Question | Why it matters | Useful evidence |
+|---|---|---|
+| Is the map deeply sampled enough? | Sparse counts can appear as isolated features | Valid pairs, cis/trans distribution, reproducibility, contact decay |
+| Was the binning appropriate? | Coarse bins pool nearby events | Multiple bin sizes, support across scales |
+| What normalization was applied? | Raw, balanced and distance-normalized maps answer different questions | Explicit matrix processing and normalization method |
+| Is the feature consistent? | Apparent loops may depend on replicate or caller | Biological replicates, background model, independent loop or TAD callers |
+| Is there a functional connection? | Hi-C proximity does not prove enhancer action | Perturbation with target-gene readout, orthogonal assays |
+
+A systematic comparison showed that different Hi-C interaction algorithms can return meaningfully different interaction sets from the same data ([Forcato et al., 2017](https://doi.org/10.1038/nmeth.4325)). Reproducibility and orthogonal biological evidence matter at least as much as visual appeal.
+
+## 3. The case: an enhancer and a promoter inside a domain
+
+A CRC organoid shows an accessible distal element, nearby H3K27ac enrichment, an elevated Hi-C signal and a strongly expressed gene. Which of the following can be concluded?
+
+- **Supported:** The assayed population shows chromatin accessibility and enhancer-associated chromatin signal at the element; the analyzed contact map reports proximity-associated interactions.
+- **Hypothesis:** The element is a functional enhancer for the gene in that organoid state.
+- **Not yet established:** The element causally drives the gene, the interaction exists in every tumour cell, or disrupting it would be clinically beneficial.
+
+Design two independent perturbation-based experiments that could strengthen or refute the hypothesis. Describe how you would handle matched normal epithelial cells, biological replicates and unintended changes in cell viability. Then compare your answer with the [enhancer evidence lesson](enhancer-to-organoid.qmd).
+
+## 4. Journal-club discussion
+
+Read Rao et al. (2014) and one Hi-C computational-methods study. Identify precisely which measurements are **contacts**, which analyses infer **structural features**, and which biological interpretations rely on additional experiments.
+
+Three questions for discussion:
+
+1. Why is a visual improvement after smoothing or larger-bin aggregation not necessarily an improvement in detection accuracy?
+2. What new uncertainty is introduced when an interaction from a bulk Hi-C matrix is assigned to a rare cell state found by single-cell RNA/ATAC profiling?
+3. What is the difference between a contact enrichment, a called loop and demonstrated enhancer–gene regulation?
+
+## 5. Instructor checkpoint
+
+Students should submit: one annotated comparison of 10-kb and 40-kb simulated maps, a paragraph distinguishing depth/bins/balancing/O-E, and a concise experimental proposal. The [instructor notes](../exercises/hic-contact-lab/instructor-notes.md) include discussion prompts and common errors. This is a newly created teaching resource; it does not imply this course has been delivered previously.
+
+For a structural overview, see [How does the genome fold?](hic-structures.qmd); for multiple samples, see [What changes between Hi-C samples?](comparing-hic-samples.qmd).
+
+The next steps are [recognizing structural signatures](hic-structures.qmd), [comparing independent samples](comparing-hic-samples.qmd), choosing among [3D-genome assay families](hic-assays.qmd), and the [practical 3D-genome glossary](hic-glossary.qmd).
+
+## References
+
+- Tavallaee G, Orouji E. Mapping the 3D genome architecture. *Computational and Structural Biotechnology Journal* **27**, 89–101 (2025; online 2024). [doi:10.1016/j.csbj.2024.12.018](https://doi.org/10.1016/j.csbj.2024.12.018).
+- Lieberman-Aiden E et al. Comprehensive mapping of long-range interactions reveals folding principles of the human genome. *Science* 326, 289–293 (2009). [doi:10.1126/science.1181369](https://doi.org/10.1126/science.1181369).
+- Rao SSP et al. A 3D map of the human genome at kilobase resolution reveals principles of chromatin looping. *Cell* 159, 1665–1680 (2014). [doi:10.1016/j.cell.2014.11.021](https://doi.org/10.1016/j.cell.2014.11.021).
+- Forcato M et al. Comparison of computational methods for Hi-C data analysis. *Nature Methods* 14, 679–685 (2017). [doi:10.1038/nmeth.4325](https://doi.org/10.1038/nmeth.4325).
+
+All visualizations in this lesson are original and synthetic. No copyrighted journal images are reproduced.

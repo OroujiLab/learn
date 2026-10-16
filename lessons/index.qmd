@@ -1,0 +1,74 @@
+---
+title: "Explore Lessons"
+subtitle: "Four teaching pathways · research-led practicals and critical interpretation"
+toc: false
+---
+
+::: {.lesson-directory-intro}
+Choose a pathway or open a lesson directly. Every module connects a biological question to an exercise, scientific schematic, or critical interpretation.
+
+**13 lessons · 4 pathways · Free educational resources**
+
+*Times are suggested teaching durations, not previously delivered courses.*
+:::
+
+::: {.lesson-jump}
+**Jump to a topic**
+
+[01 / Computational](#computational-genomics) · [02 / Experimental](#experimental-epigenomics) · [03 / Cancer & organoids](#cancer-biology-organoids) · [04 / Translational](#translational-oncology)
+:::
+
+## 01 / Computational genomics {#computational-genomics}
+
+From reproducible sequencing analysis to three-dimensional chromosome architecture.
+
+```{=html}
+<div class="directory-list" aria-label="01 / Computational genomics lessons">
+<a class="directory-lesson" href="local-to-hpc.html"><div class="directory-lesson-main"><span class="directory-index">01</span><span class="directory-lesson-title">From laptop to HPC</span></div><div class="directory-meta"><span>Foundations</span><span>60–90 min</span><span>Runnable FASTQ & Python</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="hic-structures.html"><div class="directory-lesson-main"><span class="directory-index">02</span><span class="directory-lesson-title">How the genome folds</span></div><div class="directory-meta"><span>Intermediate</span><span>70–90 min</span><span>Illustrated · interactive</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="hic-resolution-lab.html"><div class="directory-lesson-main"><span class="directory-index">03</span><span class="directory-lesson-title">What survives Hi-C resolution?</span></div><div class="directory-meta"><span>Advanced</span><span>70–90 min</span><span>Interactive contact-map lab</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="comparing-hic-samples.html"><div class="directory-lesson-main"><span class="directory-index">04</span><span class="directory-lesson-title">Comparing Hi-C samples</span></div><div class="directory-meta"><span>Advanced</span><span>90–120 min</span><span>Interactive A/B/C comparison</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="gosling-genome-tracks.html"><div class="directory-lesson-main"><span class="directory-index">05</span><span class="directory-lesson-title">Genome Track Studio: Gosling & HiGlass</span></div><div class="directory-meta"><span>Practical</span><span>60–90 min</span><span>BED / bedGraph / local TSV</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="hic-glossary.html"><div class="directory-lesson-main"><span class="directory-index">06</span><span class="directory-lesson-title">3D-genome glossary</span></div><div class="directory-meta"><span>Reference</span><span>Self-paced</span><span>Definitions & interpretation</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+</div>
+```
+
+## 02 / Experimental epigenomics {#experimental-epigenomics}
+
+Understand what assays physically measure, their controls and their limits.
+
+```{=html}
+<div class="directory-list" aria-label="02 / Experimental epigenomics lessons">
+<a class="directory-lesson" href="atac-quality.html"><div class="directory-lesson-main"><span class="directory-index">01</span><span class="directory-lesson-title">When can you trust an ATAC-seq peak?</span></div><div class="directory-meta"><span>Intermediate</span><span>~75 min</span><span>QC & evidence exercise</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="chromatin-assays.html"><div class="directory-lesson-main"><span class="directory-index">02</span><span class="directory-lesson-title">ChIP-seq vs CUT&RUN vs CUT&Tag</span></div><div class="directory-meta"><span>Intermediate</span><span>75–90 min</span><span>Molecular mechanisms</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="cutrun-benchmarking.html"><div class="directory-lesson-main"><span class="directory-index">03</span><span class="directory-lesson-title">Benchmarking CUT&RUN peak callers</span></div><div class="directory-meta"><span>Intermediate</span><span>60–90 min</span><span>Runnable BED comparison</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="hic-assays.html"><div class="directory-lesson-main"><span class="directory-index">04</span><span class="directory-lesson-title">Choosing a 3D-genome assay</span></div><div class="directory-meta"><span>Intermediate</span><span>60–80 min</span><span>Method selection</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+</div>
+```
+
+## 03 / Cancer biology & organoids {#cancer-biology-organoids}
+
+Move from observed molecular states to functional regulatory hypotheses.
+
+```{=html}
+<div class="directory-list" aria-label="03 / Cancer biology & organoids lessons">
+<a class="directory-lesson" href="organoid-epigenomics-design.html"><div class="directory-lesson-main"><span class="directory-index">01</span><span class="directory-lesson-title">Designing organoid epigenomics studies</span></div><div class="directory-meta"><span>Advanced</span><span>~90 min</span><span>Study design seminar</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+<a class="directory-lesson" href="enhancer-to-organoid.html"><div class="directory-lesson-main"><span class="directory-index">02</span><span class="directory-lesson-title">Is the candidate enhancer causal?</span></div><div class="directory-meta"><span>Advanced</span><span>60–90 min</span><span>Interactive evidence studio</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+</div>
+```
+
+## 04 / Translational oncology {#translational-oncology}
+
+Evaluate what model-derived signals can and cannot establish for patient care.
+
+```{=html}
+<div class="directory-list" aria-label="04 / Translational oncology lessons">
+<a class="directory-lesson" href="biomarker-evidence.html"><div class="directory-lesson-main"><span class="directory-index">01</span><span class="directory-lesson-title">Can an organoid result guide care?</span></div><div class="directory-meta"><span>Advanced</span><span>60–90 min</span><span>Synthetic clinical evidence</span></div><span class="directory-arrow" aria-hidden="true">↗</span></a>
+</div>
+```
+
+## How to use this material
+
+Start with a lesson's learning objectives, inspect its **synthetic** example where provided, then work through the interpretation challenge. Original graphics and citations appear alongside each topic. A visually convincing dataset is not necessarily experimentally valid, and a contact map is not a direct image of chromatin.
+
+[Read our teaching approach](../teaching.qmd) · [Browse learning tracks](../tracks/index.qmd) · [Return to homepage](../index.qmd)
